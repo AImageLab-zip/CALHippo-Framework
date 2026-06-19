@@ -1,0 +1,10 @@
+experiment_name,cv_best_epoch/NAE/overall_mean,cv_best_epoch/NAE/overall_std,cv_best_epoch/SSIM/overall_mean,cv_best_epoch/SSIM/overall_std,Robust_Score
+9_shorter_unet_normalizedgame_asymclassnormalizedl1loss_adamw_20260225_134652,0.2304,0.0419,0.4153,0.0207,0.9731638418079096
+8_shorter_unet_normalizedgame_asymclassnormalizedl1loss_adam_20260225_133028,0.2267,0.0304,0.4028,0.0344,0.931161324224908
+6_shorter_unet_normalizedgame_normalizedl1loss_adam_20260225_130007,0.2226,0.0451,0.3575,0.0313,0.8015690732147576
+7_shorter_unet_normalizedgame_classnormalizedl1loss_adam_20260225_131511,0.2578,0.0829,0.4038,0.0398,0.7720017605267924
+5_shorter_unet_naecount_normalizedl1loss_adam_20260225_124428,0.2378,0.0563,0.3448,0.0351,0.7116063025671626
+3_shorter_unet_naecount_mse_loss_adam_20260225_121637,0.2346,0.0267,0.2233,0.019,0.4925847457627119
+2_shorter_unet_mse_loss_adam_20260225_120450,0.3348,0.0937,0.334,0.0231,0.47747108342165656
+4_shorter_unet_naecount_l1loss_adam_20260225_123056,0.2554,0.05,0.2316,0.0153,0.44625374074832774
+1_baseline_unet_mse_loss_adam_20260225_115148,0.4288,0.1115,0.3426,0.0296,0.28560168155543875

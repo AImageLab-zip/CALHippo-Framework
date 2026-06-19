@@ -1,0 +1,108 @@
+[project]
+name = "neuro-brain"
+version = "0.1.0"
+description = "BigBrain hippocampus preprocessing, segmentation, classification, density estimation, and LR reconstruction workflow."
+readme = "README.md"
+requires-python = ">=3.10, <=3.13"
+dependencies = [
+    "cellpose[gui]",
+    "cffi",
+    "cucim-cu12; sys_platform != 'darwin'",
+    "cupy-cuda12x; sys_platform != 'darwin'",
+    "docopt>=0.6.2",
+    "ipykernel",
+    "ipympl>=0.9.8",
+    "loguru>=0.7.3",
+    "lxml",
+    "mahotas>=1.4.18",
+    "nibabel",
+    "numpy>=1.26.4",
+    "opencv-python>=4.5.0",
+    "openpyxl>=3.1.5",
+    "openslide-bin",
+    "openslide-python",
+    "pandas>=2.3.3",
+    "pillow",
+    "psutil>=5.8.0",
+    "pycparser",
+    "pyvips[binary]",
+    "pyvista",
+    "requests>=2.32.0",
+    "rich>=14.2.0",
+    "rtree",
+    "scikit-image",
+    "scikit-learn>=1.7.2",
+    "scipy>=1.6.0",
+    "seaborn>=0.13.2",
+    "shapely>=2.0.7",
+    "stardist>=0.9.1",
+    "tensorflow[and-cuda]>=2.20.0; sys_platform != 'darwin'",
+    "tensorflow>=2.20.0; sys_platform == 'darwin'",
+    "tifffile",
+    "tiffslide>=2.5.1",
+    "torch; sys_platform == 'darwin'",
+    "torch==2.9.1+cu126; sys_platform != 'darwin'",
+    "torchvision; sys_platform == 'darwin'",
+    "torchvision==0.24.1+cu126; sys_platform != 'darwin'",
+    "tqdm",
+    "trimesh",
+    "umap-learn>=0.5.9.post2",
+    "timm>=1.0.22",
+    "pyyaml>=6.0.3",
+    "wandb>=0.24.0",
+    "nvidia-ml-py>=13.590.48",
+    "dynamic-network-architectures>=0.4.3",
+    "albumentationsx>=2.0.16",
+    "antspyx>=0.6.2",
+    "torchmetrics>=1.8.2",
+    "ipython>=8.37.0",
+    "jupyter>=1.1.1",
+    "gputools>=0.3.1",
+    "huggingface-hub>=1.0.0",
+    "pot>=0.9.6.post1",
+    "pymanopt>=2.2.1",
+    "autograd>=1.8.0",
+    "instanseg-torch>=0.1.1",
+    "wget>=3.2",
+    "plotly>=6.5.2",
+    "rasterio>=1.4.4",
+]
+
+[tool.uv]
+cache-dir = "./data/uv_cache"
+no-cache = true
+
+[tool.uv.sources]
+cellpose = { git = "https://www.github.com/mouseland/cellpose.git" }
+torch = [{ index = "pytorch-cu126", marker = "sys_platform != 'darwin'" }]
+torchvision = [{ index = "pytorch-cu126", marker = "sys_platform != 'darwin'" }]
+
+[[tool.uv.index]]
+name = "pytorch-cu126"
+url = "https://download.pytorch.org/whl/cu126"
+explicit = true
+
+[tool.ruff]
+# Set the line length (default is 88)
+line-length = 88
+# Tell Ruff to include .ipynb files when searching directories
+extend-include = ["*.ipynb"]
+
+[tool.ruff.lint]
+# 1. Enable the "I" (Isort) rules to enforce import sorting
+# 2. Add "F" (Pyflakes) and "E" (pycodestyle) for standard linting errors
+select = ["I", "F", "E"]
+
+# (Optional) Ignore specific rules if they annoy you
+ignore = []
+
+[tool.ruff.format]
+# Configuration for the formatter (like Black)
+quote-style = "double"
+indent-style = "space"
+docstring-code-format = true
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.12",
+]

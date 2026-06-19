@@ -1,0 +1,3 @@
+# Default LR section IDs derived from data/input/allLR_with_masks_fixed.
+# One ID or inclusive range per line is accepted by scripts/setup_data.py.
+2777-3998

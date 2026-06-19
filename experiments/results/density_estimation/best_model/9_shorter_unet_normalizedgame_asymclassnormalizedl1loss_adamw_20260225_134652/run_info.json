@@ -1,0 +1,108 @@
+{
+  "args": {
+    "config": "experiments/density_estimation/best_model/9_shorter_unet_normalizedgame_asymclassnormalizedl1loss_adamw.yaml",
+    "root_dir": "data/output/lr_density_dataset/allCA_128_96_smooth_b05_k5_roi",
+    "output_dir": "data/density_estimator_training/ablation_runs/9_shorter_unet_normalizedgame_asymclassnormalizedl1loss_adamw_20260225_134652",
+    "num_epochs": 100,
+    "batch_size": 32,
+    "lr": 0.0001,
+    "seed": 42,
+    "optimizer_type": "adamw",
+    "grad_clip_max_norm": 2.0,
+    "scheduler_patience": 10,
+    "scheduler_factor": 0.1,
+    "scheduler_min_lr": 1e-07,
+    "k_folds": 5,
+    "early_stopping_patience": 40,
+    "early_stopping_min_delta": 0.001,
+    "early_stopping_mode": "min",
+    "early_stopping_monitor": "val_nae_mean",
+    "model_type": "plain_conv_unet_relu",
+    "num_classes": 3,
+    "input_channels": 3,
+    "deep_supervision": false,
+    "aug_level": "medium",
+    "img_size": 128,
+    "class_names": [
+      "Pyramidal",
+      "Interneuron",
+      "Astrocyte"
+    ],
+    "norm_mean": [
+      0.7637,
+      0.7637,
+      0.7637
+    ],
+    "norm_std": [
+      0.0703,
+      0.0703,
+      0.0703
+    ],
+    "fill_value": 65535,
+    "use_roi_mask": false,
+    "use_wandb": true,
+    "wandb_project": "neuro_brain_project",
+    "wandb_group": "ablations",
+    "wandb_tags": [
+      "ablations",
+      "p128_096_gaussian_b05_k5"
+    ],
+    "wandb_run_name": null,
+    "debug": false,
+    "model_kwargs": {
+      "n_stages": 4,
+      "features_per_stage": [
+        32,
+        64,
+        128,
+        256
+      ],
+      "strides": [
+        1,
+        2,
+        2,
+        2
+      ],
+      "n_conv_per_stage": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "n_conv_per_stage_decoder": [
+        2,
+        2,
+        2
+      ],
+      "kernel_sizes": [
+        3,
+        3,
+        3,
+        3
+      ],
+      "conv_bias": true,
+      "norm_op": "BatchNorm2d",
+      "nonlin": "LeakyReLU",
+      "use_log_counts": false
+    },
+    "loss_configs": [
+      {
+        "type": "asymmetric_normalized_class_l1_pixel",
+        "weight": 1.0
+      },
+      {
+        "type": "normalized_game",
+        "weight": 1.0
+      }
+    ],
+    "optimizer_kwargs": {}
+  },
+  "environment": {
+    "python_version": "3.10.19 (main, Dec  2 2025, 19:44:39) [Clang 21.1.4 ]",
+    "platform": "Linux-6.17.0-14-generic-x86_64-with-glibc2.39",
+    "torch_version": "2.9.1+cu126",
+    "cuda_available": true,
+    "cuda_device": "NVIDIA TITAN Xp"
+  },
+  "timestamp_utc": "2026-02-25T13:46:52.310649+00:00"
+}

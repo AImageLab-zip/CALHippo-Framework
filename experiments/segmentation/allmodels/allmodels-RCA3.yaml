@@ -1,0 +1,73 @@
+IO:
+  input_dir: "data/input/single_regions/high_res/RCA3"
+  input_masks_dir: "data/input/single_regions/high_res/RCA3"
+  output_dir: "data/output/segmentation/RCA3/all_models"
+  img_ext: ".tif"
+  mask_exts:
+    - ".geojson"
+  padding: 0
+  save_intermediate: true
+  load_intermediate_dir: null
+  debug: false
+  use_wandb: false
+  wandb_group: "inference"
+
+CELLPOSE:
+  model_path: "data/models/segmentation/cellpose/finetune_v4_astrocytes_big_brain"
+  batch_size: 4
+  flow_threshold: 0.6
+  cellprob_threshold: 0.0
+  diameters:
+    - 20
+    - 30
+    - 40
+
+STARDIST:
+  model_path: "data/models/segmentation/stardist"
+  exclude_stardist: false
+  block_size: 1024
+  prob_threshold: 0.5
+  max_area: 5000
+
+HOVERNET:
+  model_path: "data/models/segmentation/hovernet/net_epoch=20.tar"
+  model_mode: "original"
+  nr_types: null
+  batch_size: 32
+  max_area: 5000
+  exclude_hovernet: false
+
+INSTANSEG:
+  model_path: "data/models/segmentation/instanseg/instanseg.pt"
+  patch_size: 512
+  batch_size: 4
+  max_area: 5000
+  exclude_instanseg: false
+
+ADAPTIVE_THRESHOLD:
+  exclude_adaptive_threshold: false
+  parameters:
+    - method: "cv2"
+      window_size: 15
+      second_param: 3
+      max_eccentricity: 0.8
+    - method: "cv2"
+      window_size: 27
+      second_param: 5
+      max_eccentricity: 0.8
+    - method: "sauvola"
+      window_size: 25
+      second_param: 0.2
+      max_eccentricity: 0.9
+    - method: "sauvola"
+      window_size: 41
+      second_param: 0.25
+      max_eccentricity: 0.9
+
+MERGING:
+  min_area_threshold: 5
+  iou_threshold: 0.3
+  min_vote_ratio: 0.3
+  max_mean_color: 100.0
+  small_diam_area_threshold: 100
+  predict_outside_rois: false

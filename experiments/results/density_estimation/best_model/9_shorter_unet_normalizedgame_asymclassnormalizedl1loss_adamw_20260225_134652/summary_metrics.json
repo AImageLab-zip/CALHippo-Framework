@@ -1,0 +1,334 @@
+{
+  "cv_last_epoch": {
+    "MAE": {
+      "mean": {
+        "Pyramidal": 437.4958,
+        "Interneuron": 95.7452,
+        "Astrocyte": 1388.0237,
+        "mean": 640.4216
+      },
+      "std": {
+        "Pyramidal": 56.0048,
+        "Interneuron": 55.9806,
+        "Astrocyte": 564.1984,
+        "mean": 204.6707
+      }
+    },
+    "RMSE": {
+      "mean": {
+        "Pyramidal": 509.6912,
+        "Interneuron": 111.1143,
+        "Astrocyte": 1632.791,
+        "mean": 751.1988
+      },
+      "std": {
+        "Pyramidal": 59.3331,
+        "Interneuron": 59.3464,
+        "Astrocyte": 562.7734,
+        "mean": 210.1663
+      }
+    },
+    "NAE": {
+      "mean": {
+        "Pyramidal": 0.1832,
+        "Interneuron": 0.2548,
+        "Astrocyte": 0.3705,
+        "mean": 0.2695
+      },
+      "std": {
+        "Pyramidal": 0.0318,
+        "Interneuron": 0.0708,
+        "Astrocyte": 0.1585,
+        "mean": 0.0409
+      }
+    },
+    "SRE": {
+      "mean": {
+        "Pyramidal": 10.0968,
+        "Interneuron": 5.6318,
+        "Astrocyte": 25.1974,
+        "mean": 13.642
+      },
+      "std": {
+        "Pyramidal": 0.623,
+        "Interneuron": 1.972,
+        "Astrocyte": 7.659,
+        "mean": 2.5421
+      }
+    },
+    "PSNR": {
+      "mean": {
+        "Pyramidal": 22.5272,
+        "Interneuron": 21.6764,
+        "Astrocyte": 20.0653,
+        "mean": 21.4229
+      },
+      "std": {
+        "Pyramidal": 0.7437,
+        "Interneuron": 1.2467,
+        "Astrocyte": 0.9966,
+        "mean": 0.4715
+      }
+    },
+    "SSIM": {
+      "mean": {
+        "Pyramidal": 0.5311,
+        "Interneuron": 0.3804,
+        "Astrocyte": 0.3227,
+        "mean": 0.4114
+      },
+      "std": {
+        "Pyramidal": 0.0361,
+        "Interneuron": 0.0928,
+        "Astrocyte": 0.0585,
+        "mean": 0.0219
+      }
+    },
+    "train_loss": {
+      "mean": 1.048691,
+      "std": 0.062931
+    },
+    "val_loss": {
+      "mean": 1.38698,
+      "std": 0.065617
+    }
+  },
+  "cv_best_epoch": {
+    "MAE": {
+      "mean": {
+        "Pyramidal": 427.4827,
+        "Interneuron": 86.5785,
+        "Astrocyte": 1232.5243,
+        "mean": 582.1952
+      },
+      "std": {
+        "Pyramidal": 45.2357,
+        "Interneuron": 27.3779,
+        "Astrocyte": 506.5034,
+        "mean": 178.3234
+      }
+    },
+    "RMSE": {
+      "mean": {
+        "Pyramidal": 521.0506,
+        "Interneuron": 115.8487,
+        "Astrocyte": 1426.9713,
+        "mean": 687.9569
+      },
+      "std": {
+        "Pyramidal": 76.2364,
+        "Interneuron": 60.5366,
+        "Astrocyte": 498.5179,
+        "mean": 189.92
+      }
+    },
+    "NAE": {
+      "mean": {
+        "Pyramidal": 0.1608,
+        "Interneuron": 0.2039,
+        "Astrocyte": 0.3265,
+        "mean": 0.2304
+      },
+      "std": {
+        "Pyramidal": 0.0387,
+        "Interneuron": 0.0477,
+        "Astrocyte": 0.1381,
+        "mean": 0.0419
+      }
+    },
+    "SRE": {
+      "mean": {
+        "Pyramidal": 9.3961,
+        "Interneuron": 4.642,
+        "Astrocyte": 23.1252,
+        "mean": 12.3878
+      },
+      "std": {
+        "Pyramidal": 1.3398,
+        "Interneuron": 0.9155,
+        "Astrocyte": 8.208,
+        "mean": 2.386
+      }
+    },
+    "PSNR": {
+      "mean": {
+        "Pyramidal": 22.6637,
+        "Interneuron": 21.8607,
+        "Astrocyte": 20.3008,
+        "mean": 21.6084
+      },
+      "std": {
+        "Pyramidal": 0.7125,
+        "Interneuron": 1.1803,
+        "Astrocyte": 1.0034,
+        "mean": 0.4219
+      }
+    },
+    "SSIM": {
+      "mean": {
+        "Pyramidal": 0.5311,
+        "Interneuron": 0.3853,
+        "Astrocyte": 0.3296,
+        "mean": 0.4153
+      },
+      "std": {
+        "Pyramidal": 0.0354,
+        "Interneuron": 0.089,
+        "Astrocyte": 0.0613,
+        "mean": 0.0207
+      }
+    }
+  },
+  "cv_game": {
+    "GAME_0": {
+      "mean": {
+        "Pyramidal": 421.4803,
+        "Interneuron": 92.6045,
+        "Astrocyte": 1426.9944,
+        "mean": 647.0264
+      },
+      "std": {
+        "Pyramidal": 64.499,
+        "Interneuron": 57.9674,
+        "Astrocyte": 678.0352,
+        "mean": 241.5935
+      }
+    },
+    "GAME_1": {
+      "mean": {
+        "Pyramidal": 504.1796,
+        "Interneuron": 117.1679,
+        "Astrocyte": 1575.9883,
+        "mean": 732.4452
+      },
+      "std": {
+        "Pyramidal": 66.3002,
+        "Interneuron": 50.6401,
+        "Astrocyte": 617.1796,
+        "mean": 233.2197
+      }
+    },
+    "GAME_2": {
+      "mean": {
+        "Pyramidal": 604.214,
+        "Interneuron": 145.3899,
+        "Astrocyte": 1743.4408,
+        "mean": 831.0148
+      },
+      "std": {
+        "Pyramidal": 79.5491,
+        "Interneuron": 50.5078,
+        "Astrocyte": 571.2313,
+        "mean": 223.6477
+      }
+    },
+    "GAME_3": {
+      "mean": {
+        "Pyramidal": 701.8468,
+        "Interneuron": 184.1774,
+        "Astrocyte": 1906.3508,
+        "mean": 930.7917
+      },
+      "std": {
+        "Pyramidal": 98.8381,
+        "Interneuron": 50.4287,
+        "Astrocyte": 526.695,
+        "mean": 216.195
+      }
+    }
+  },
+  "final_test": {
+    "MAE": {
+      "Pyramidal": 593.2511,
+      "Interneuron": 143.8605,
+      "Astrocyte": 1716.5645,
+      "mean": 817.892
+    },
+    "RMSE": {
+      "Pyramidal": 815.5167,
+      "Interneuron": 176.5303,
+      "Astrocyte": 2063.814,
+      "mean": 1018.6203
+    },
+    "NAE": {
+      "Pyramidal": 0.1989,
+      "Interneuron": 0.3635,
+      "Astrocyte": 0.2882,
+      "mean": 0.2835
+    },
+    "SRE": {
+      "Pyramidal": 14.0715,
+      "Interneuron": 8.2138,
+      "Astrocyte": 25.3839,
+      "mean": 15.8897
+    },
+    "PSNR": {
+      "Pyramidal": 23.9672,
+      "Interneuron": 21.3093,
+      "Astrocyte": 19.5147,
+      "mean": 21.5971
+    },
+    "SSIM": {
+      "Pyramidal": 0.5875,
+      "Interneuron": 0.4043,
+      "Astrocyte": 0.2989,
+      "mean": 0.4303
+    },
+    "GAME_0": {
+      "mean": {
+        "Pyramidal": 593.2511,
+        "Interneuron": 143.8605,
+        "Astrocyte": 1716.5645,
+        "mean": 817.892
+      },
+      "std": {
+        "Pyramidal": 562.1097,
+        "Interneuron": 102.7728,
+        "Astrocyte": 1150.9423,
+        "mean": 605.2749
+      }
+    },
+    "GAME_1": {
+      "mean": {
+        "Pyramidal": 652.1358,
+        "Interneuron": 163.8356,
+        "Astrocyte": 1819.8585,
+        "mean": 878.61
+      },
+      "std": {
+        "Pyramidal": 520.2074,
+        "Interneuron": 86.9534,
+        "Astrocyte": 1066.821,
+        "mean": 557.9939
+      }
+    },
+    "GAME_2": {
+      "mean": {
+        "Pyramidal": 744.2177,
+        "Interneuron": 194.4968,
+        "Astrocyte": 1992.6057,
+        "mean": 977.1067
+      },
+      "std": {
+        "Pyramidal": 477.8763,
+        "Interneuron": 77.4798,
+        "Astrocyte": 1009.0209,
+        "mean": 521.459
+      }
+    },
+    "GAME_3": {
+      "mean": {
+        "Pyramidal": 843.127,
+        "Interneuron": 236.9938,
+        "Astrocyte": 2173.9241,
+        "mean": 1084.6816
+      },
+      "std": {
+        "Pyramidal": 460.0307,
+        "Interneuron": 80.0393,
+        "Astrocyte": 964.0037,
+        "mean": 501.3579
+      }
+    }
+  }
+}

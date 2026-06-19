@@ -1,0 +1,78 @@
+# ==============================================================
+# Density-Estimation Best-Model Configuration
+# ==============================================================
+# Usage:
+#   python -m src.density_estimator --config experiments/density_estimation/best_model/9_shorter_unet_normalizedgame_asymclassnormalizedl1loss_adamw.yaml
+#
+# Any key here can be overridden via the CLI:
+#   python -m src.density_estimation --config ... --lr 5e-4 --batch-size 32
+
+IO:
+  root_dir: data/output/lr_density_dataset/allCA_128_96_smooth_b05_k5_roi
+  output_dir: data/density_estimator_training/best_model
+
+DATA:
+  img_size: 128
+  class_names:
+    - Pyramidal
+    - Interneuron
+    - Astrocyte
+  fill_value: 65535
+  use_roi_mask: false    # Focus loss/metrics on ROI regions only (requires roi_masks/ folder)
+
+AUGMENTATIONS:
+  level: medium            # basic | medium | full
+
+TRAINING:
+  num_epochs: 100
+  batch_size: 32
+  lr: 1e-4
+  seed: 42
+  grad_clip_max_norm: 2.0
+
+LOSS:
+  - type: asymmetric_normalized_class_l1_pixel
+    weight: 1.0
+  - type: normalized_game
+    weight: 1.0
+
+OPTIMIZER:
+  type: adamw
+
+SCHEDULER:
+  patience: 10 #default reduce lr on plateau values
+  factor: 0.1
+  min_lr: 1e-7
+
+CROSS_VALIDATION:
+  k_folds: 5
+
+EARLY_STOPPING:
+  patience: 40          # epochs without improvement before stopping (0 = disabled)
+  min_delta: 0.001      # minimum metric improvement to count as progress
+  mode: min            # min | max | auto (auto infers from monitor metric)
+  monitor: val_nae_mean # val_loss | val_mae_mean | val_nae_mean | val_psnr_mean | val_ssim_mean: 20
+
+MODEL:
+  type: plain_conv_unet_relu
+  num_classes: 3
+  input_channels: 3
+  deep_supervision: false
+  kwargs:
+    n_stages: 4                                  # CHANGED from 5
+    features_per_stage: [32, 64, 128, 256]       # DROPPED the 512
+    strides: [1, 2, 2, 2]                        # DROPPED the final 2
+    n_conv_per_stage: [2, 2, 2, 2]               # DROPPED the 5th block
+    n_conv_per_stage_decoder: [2, 2, 2]          # DROPPED the 4th block
+    kernel_sizes: [3, 3, 3, 3]                   # DROPPED the 5th kernel
+    conv_bias: true
+    norm_op: BatchNorm2d
+    nonlin: LeakyReLU
+
+WANDB:
+  enabled: true
+  project: neuro_brain_project
+  group: ablations
+  tags: [best_model, baseline]
+
+debug: false

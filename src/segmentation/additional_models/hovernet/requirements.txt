@@ -1,0 +1,21 @@
+# HoverNet Inference Lite - Minimal Dependencies
+# Core
+# Install torch separately with: pip install torch==2.9.1+cu126 --index-url https://download.pytorch.org/whl/cu126
+numpy>=1.19.0
+
+# Image Processing
+opencv-python>=4.5.0
+
+# Scientific
+scipy>=1.6.0
+scikit-image>=0.18.0
+
+# System & Progress
+psutil>=5.8.0
+tqdm>=4.60.0
+
+# CLI
+docopt>=0.6.2
+
+# Visualization
+matplotlib>=3.3.0
