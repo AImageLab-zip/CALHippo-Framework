@@ -1,11 +1,11 @@
-# neuro-brain
+# CALHippo Framework - the framework for the CA Labeled Hippocampus Dataset
 
 ![Python](https://img.shields.io/badge/Python-3.10--3.13-3776AB?logo=python&logoColor=white)
 ![uv](https://img.shields.io/badge/uv-package%20manager-5E6AD2)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.9%2B-EE4C2C?logo=pytorch&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.20%2B-FF6F00?logo=tensorflow&logoColor=white)
 
-`neuro_brain` is a BigBrain hippocampus workflow repository. It preprocesses raw
+This repo is a BigBrain hippocampus workflow repository. It preprocesses raw
 high-resolution (HR) (1) and low-resolution (LR) (5) BigBrain slices, segments and
 classifies HR cells (2), maps the annotations into LR space (3), trains LR density models (4),
 runs full-slice LR inference (6), and reconstructs 3D point-cloud outputs (7).
