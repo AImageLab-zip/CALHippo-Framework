@@ -6,11 +6,18 @@
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.20%2B-FF6F00?logo=tensorflow&logoColor=white)
 
 This repo is a BigBrain hippocampus workflow repository. It preprocesses raw
-high-resolution (HR) (1) and low-resolution (LR) (5) BigBrain slices, segments and
-classifies HR cells (2), maps the annotations into LR space (3), trains LR density models (4),
-runs full-slice LR inference (6), and reconstructs 3D point-cloud outputs (7).
+high-resolution (HR) (a) and low-resolution (LR) (e) BigBrain slices, segments and
+classifies HR cells (b), maps the annotations into LR space (c), trains LR density models (d),
+runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
 ![neuro_brain_pipeline](media/PaperPipeline_Final.png)
+
+## CA Mesoscale Cell Resolved Point Cloud
+
+<video controls autoplay loop muted playsinline width="100%">
+  <source src="media/ca_pointcloud_infographic_web.webm" type="video/webm">
+  <source src="media/ca_pointcloud_infographic.mp4" type="video/mp4">
+</video>
 
 ## Setup
 
