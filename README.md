@@ -14,10 +14,13 @@ runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
 ## CA Mesoscale Cell Resolved Point Cloud
 
-<video controls autoplay loop muted playsinline width="100%">
-  <source src="media/ca_pointcloud_infographic_web.webm" type="video/webm">
-  <source src="media/ca_pointcloud_infographic.mp4" type="video/mp4">
-</video>
+Click to see the full resolution video
+
+<p align="center">
+  <a href="https://github.com/user-attachments/assets/cb5ed5cc-4c09-4b08-8d47-d44bd0e9a54f">
+    <img src="media/ca_pointcloud_infographic_preview.gif" width="720" alt="CA mesoscale cell-resolved point cloud infographic">
+  </a>
+</p>
 
 ## Setup
 
