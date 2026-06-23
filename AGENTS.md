@@ -14,9 +14,16 @@
 - `documents/pipeline.md` is the canonical reproducibility and inference reference after data setup is complete.
 - The documented data layout uses `<DATA_ROOT>/raw`, `<DATA_ROOT>/input`, `<DATA_ROOT>/output`, and `<DATA_ROOT>/models` as the canonical roots.
 - Do not add extra tutorial, explanation, reference, or experiment-summary docs unless the user explicitly asks for them.
-- Public workflow gaps and follow-up work are centralized in `TODO.md`; avoid scattering new TODO lists across README-style docs.
+- Keep unresolved follow-up work out of user-facing docs unless the user explicitly asks for it there.
 - Keep `README.md`, `documents/data_setup.md`, `documents/pipeline.md`, and `scripts/setup_data.py` aligned when changing data setup or workflow commands.
 - Do not imply that the full workflow is completely reproducible until classification GT artifacts and code/config path alignment are settled.
+
+## Public Branch Sync
+- Do not merge `density_refactoring` into the public branch with history; copy selected file contents and create a single public-branch commit instead.
+- For non-media files, update only Markdown files that already exist on the public branch.
+- Do not add private-only, old-notebook, deep-research, experiment-tracking, or other source-branch-only files to the public branch.
+- Replace the public `media/` directory with the source branch `media/` directory when refreshing public media assets.
+- Keep the public branch cleaned and reproducibility-focused; do not restore stale notebooks, extra research files, or non-public artifacts.
 
 ## Repository Summary
 - Language: Python.
@@ -138,7 +145,7 @@ uv run python src/classification/inference.py \
 
 Classification feature encoders are cached automatically under `data/models/classification/feature_encoder/resnet18/` or `data/models/classification/feature_encoder/uni2h/` based on the saved classifier metadata.
 The currently released classifier metadata requires `uni2h`; use `hf auth login` or `HF_TOKEN` after access is approved for `https://huggingface.co/MahmoodLab/UNI2-h`.
-Open classification follow-ups are tracked in `TODO.md`.
+The released sklearn classifier was serialized with scikit-learn `1.7.2`; newer versions can emit pickle compatibility warnings.
 
 ### Density dataset creation
 ```bash
@@ -164,11 +171,12 @@ uv run python -m src.density_estimator.datasets.create_dataset \
 ```bash
 uv run python -m src.density_estimator --config experiments/density_estimation/best_model/9_shorter_unet_normalizedgame_asymclassnormalizedl1loss_adamw.yaml
 uv run python -m src.density_estimator --config experiments/density_estimation/best_model/9_shorter_unet_normalizedgame_asymclassnormalizedl1loss_adamw.yaml --lr 5e-4 --batch-size 32
+bash scripts/run_yaml_experiments.bash experiments/density_estimation/ablations_runs
 uv run python -m src.density_estimator.trainer.evaluate data/density_estimator_training/<EXPERIMENT_RESULT_NAME>
 uv run python -m src.density_estimator.utils.sweep_agent <args_json_file>
 ```
 
-The maintained public training config is under `experiments/density_estimation/best_model/`; new training outputs should go under `data/density_estimator_training/<EXPERIMENT_RESULT_NAME>/`.
+Training configs remain under `experiments/density_estimation/`; new training outputs should go under `data/density_estimator_training/<EXPERIMENT_RESULT_NAME>/`.
 
 ### Full-slice LR inference
 ```bash
@@ -186,7 +194,7 @@ uv run python -m src.lr_inference.predict_on_lr_wsi_folder \
   --save-visuals
 ```
 
-Run only after a future GT-preparation script creates `data/output/test_lr_density_gt/test_set_gt_allCA_128_96_smooth_b05_k5_roi`.
+Run only after GT arrays exist under `data/output/test_lr_density_gt/test_set_gt_allCA_128_96_smooth_b05_k5_roi`.
 
 ```bash
 uv run python -m src.lr_inference.gt_predict_eval
@@ -229,8 +237,8 @@ Use `--insert-ca-areas` when matching `*_ca_areas.npy` files should populate `ca
 - Density training consumes that patch dataset and writes a run folder under `data/density_estimator_training/<EXPERIMENT_RESULT_NAME>/` with copied config, logs, metrics, plots, and weights.
 - Saved-run evaluation consumes a run folder and writes `eval_metrics.json`, `eval_predictions_summary.png`, and `eval_predictions_per_class.png` back into the same folder.
 - LR full-slice inference consumes a model/run folder plus LR PNG crops and optional ROI GeoJSONs, then writes dense predictions, sampled points, and visualizations.
-- GT LR evaluation consumes full-slice LR GT arrays from `data/output/test_lr_density_gt/test_set_gt_allCA_128_96_smooth_b05_k5_roi/` and writes metrics and prediction outputs under `data/output/lr_gt_eval/allCA_best_model_128_96_smooth_b05_k5_roi/`; the GT-preparation script is tracked in `TODO.md`.
-- Point-cloud reconstruction consumes `*_points_preds.npy` files from `data/output/full_lr_predictions/<PREDICTIONS_NAME>/`, LR bbox JSON offsets from `data/input/all_regions/low_res/`, and raw LR MINC affines from `data/raw/low_res/`, then writes `data/output/mesoscale_reconstruction/<PREDICTIONS_NAME>/point_cloud.csv`; optional rotating GIF and STL/volume exports are tracked in `TODO.md`.
+- GT LR evaluation consumes full-slice LR GT arrays from `data/output/test_lr_density_gt/test_set_gt_allCA_128_96_smooth_b05_k5_roi/` and writes metrics and prediction outputs under `data/output/lr_gt_eval/allCA_best_model_128_96_smooth_b05_k5_roi/`.
+- Point-cloud reconstruction consumes `*_points_preds.npy` files from `data/output/full_lr_predictions/<PREDICTIONS_NAME>/`, LR bbox JSON offsets from `data/input/all_regions/low_res/`, and raw LR MINC affines from `data/raw/low_res/`, then writes `data/output/mesoscale_reconstruction/<PREDICTIONS_NAME>/point_cloud.csv`.
 
 ## Data Layout Assumptions
 - `scripts/default_lr_ids.txt` is the bundled default ID list used by `scripts/setup_data.py` when HR/LR downloads are requested without explicit IDs.
@@ -248,12 +256,11 @@ Use `--insert-ca-areas` when matching `*_ca_areas.npy` files should populate `ca
 - `data/output/classification/<REGION>/<EXPERIMENT_NAME>/` stores classified HR GeoJSONs consumed by the dataset builder.
 - `data/output/classification/<REGION>/ml_classifier_logistic_encoder_uni2h/` is the current released-classifier output convention consumed by density dataset creation.
 - `data/output/lr_density_dataset/<DATASET_NAME>/train|test/...` is the expected density dataset layout.
-- `data/output/test_lr_density_gt/test_set_gt_allCA_128_96_smooth_b05_k5_roi/` stores optional full-slice LR GT arrays named `<image_id>_original_density_aligned.npy`; the script that creates these arrays from the density dataset test split is tracked in `TODO.md`.
-- `data/output/lr_gt_eval/allCA_best_model_128_96_smooth_b05_k5_roi/` stores optional default LR GT evaluation outputs; this path depends on `test_lr_density_gt` creation.
+- `data/output/test_lr_density_gt/test_set_gt_allCA_128_96_smooth_b05_k5_roi/` stores optional full-slice LR GT arrays named `<image_id>_original_density_aligned.npy`.
+- `data/output/lr_gt_eval/allCA_best_model_128_96_smooth_b05_k5_roi/` stores optional default LR GT evaluation outputs.
 - `data/output/full_lr_predictions/allCA_best_model_128_96_smooth_b05_k5_roi/` stores the maintained default full LR inference outputs.
 - `data/output/mesoscale_reconstruction/allCA_best_model_128_96_smooth_b05_k5_roi/` stores the maintained default point-cloud reconstruction outputs.
 - For custom LR inference and point-cloud runs, keep the same `<PREDICTIONS_NAME>` under `data/output/full_lr_predictions/<PREDICTIONS_NAME>/` and `data/output/mesoscale_reconstruction/<PREDICTIONS_NAME>/`.
-- Classification training defaults and dataloader assumptions still need canonical layout alignment; see `TODO.md`.
 
 ## Important Codebase Landmarks
 - `src/preprocessing/extract_crops_and_coords_HR.py`: raw HR crop, bbox, and contour extraction from surfaces.
@@ -277,7 +284,7 @@ Use `--insert-ca-areas` when matching `*_ca_areas.npy` files should populate `ca
 - `src/density_estimator/losses/__init__.py`: density loss registry/factory.
 - `src/density_estimator/trainer/evaluate.py`: standalone evaluation of saved runs.
 - `src/lr_inference/predict_on_lr_wsi_folder.py`: full-slice LR inference.
-- `src/lr_inference/gt_predict_eval.py`: LR prediction plus GT density evaluation for prepared full-slice GT arrays.
+- `src/lr_inference/gt_predict_eval.py`: optional LR prediction plus GT density evaluation.
 - `src/lr_inference/predict_pipeline/`: shared LR inference implementation helpers.
 - `src/lr_inference/point_cloud_creation.py`: 3D reconstruction from sampled points.
 - `src/density_estimator/utils/sweep_agent.py`: WandB sweep entry point.
@@ -307,7 +314,6 @@ Use `--insert-ca-areas` when matching `*_ca_areas.npy` files should populate `ca
 - LR preprocessing intentionally flips exported LR crops and GeoJSONs while leaving LR bbox JSONs in raw full-image coordinates; see `documents/hr_lr_coordinate_conventions.md` before changing mapping code.
 - Segmentation is memory-sensitive and uses both TensorFlow and PyTorch; avoid casual changes to model-loading order or GPU allocation logic.
 - Classification is more script-like than the density package and has stronger path/data naming assumptions.
-- Classification training and its dataloader still need canonical GT naming and path alignment; see `TODO.md`.
 - `main_classification.py` supports both `resnet18` and `uni2h`; the released classifier currently requires `uni2h`, and `uni2h` requires Hugging Face authentication.
 - `create_dataset.py` deletes the target output directory before rebuilding it; check its defaults before assuming they match the canonical docs.
 - `src/density_estimator/` is the best reference package for adding new models/configs because it has cleaner registries and YAML plumbing.
@@ -315,8 +321,8 @@ Use `--insert-ca-areas` when matching `*_ca_areas.npy` files should populate `ca
 - `experiments/density_estimation/` is still the config home even though the package was renamed to `density_estimator`.
 - `predict_on_lr_wsi_folder.py` reconstructs the model from the copied YAML in a run directory; keep training config and inference code compatible.
 - `gt_predict_eval.py` is not fully reproducible until a script creates `data/output/test_lr_density_gt/test_set_gt_allCA_128_96_smooth_b05_k5_roi/*_original_density_aligned.npy` from the density dataset test split.
-- `point_cloud_creation.py` assumes `*_points_preds.npy` naming plus LR bbox JSON offsets from `data/input/all_regions/low_res/`; optional rotating GIF and STL/volume exports are tracked in `TODO.md`.
-- `src/misc/cut_point_cloud.py` is an auxiliary helper and exposes its data paths as CLI arguments.
+- `point_cloud_creation.py` assumes `*_points_preds.npy` naming plus LR bbox JSON offsets from `data/input/all_regions/low_res/`.
+- `src/misc/cut_point_cloud.py` has hard-coded paths and should be treated as an auxiliary helper unless the user explicitly wants to work on it.
 
 ## Tooling-Derived Style Rules
 - Ruff line length is `88`.

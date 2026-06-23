@@ -14,12 +14,14 @@ runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
 ## CA Mesoscale Cell Resolved Point Cloud
 
-Click to see the full resolution video
-
 <p align="center">
-  <a href="https://github.com/user-attachments/assets/cb5ed5cc-4c09-4b08-8d47-d44bd0e9a54f">
+  <a href="media/ca_pointcloud_infographic_web.webm">
     <img src="media/ca_pointcloud_infographic_preview.gif" width="720" alt="CA mesoscale cell-resolved point cloud infographic">
   </a>
+</p>
+
+<p align="center">
+  <a href="media/ca_pointcloud_infographic_web.webm">Watch the high res video version</a>
 </p>
 
 ## Setup
@@ -79,10 +81,6 @@ raw LR MINC files, then writes
 `<DATA_ROOT>/output/mesoscale_reconstruction/<PREDICTIONS_NAME>/point_cloud.csv`.
 
 Maintained region names are `RCA1`, `RCA2`, `RCA3`, and `RCA4`.
-
-## Open Work
-
-Known workflow gaps and follow-up work are centralized in [TODO.md](TODO.md).
 
 ## Development
 

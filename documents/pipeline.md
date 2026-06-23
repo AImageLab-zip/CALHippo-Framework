@@ -165,8 +165,10 @@ Operational notes:
 - HoverNet implementation modules are bundled under
   `src/segmentation/additional_models/hovernet/models/hovernet/` and the
   checkpoint is loaded from `$DATA_ROOT/models/segmentation/hovernet/net_epoch=20.tar`.
-  Smoke-test full all-model segmentation with HoverNet enabled because it is
-  GPU-memory sensitive before assuming the checkpoint is production-ready.
+  Full all-model segmentation with HoverNet enabled is GPU-memory sensitive and
+  should be smoke-tested for the target hardware.
+- Legacy segmentation configs outside `experiments/segmentation/allmodels/` may
+  still need canonical path updates.
 
 ## 5. Classify Segmented Cells
 
@@ -206,20 +208,15 @@ Training entry point for unreleased GT workflows:
 
 - `src/classification/main_classification.py`
 
-Classification training GT is not released yet; this training entry point is not
-part of the public reproducibility path.
-
 Operational notes:
 
 - Classification inference consumes segmentation GeoJSONs plus the matching HR
   crops.
 - Classification training annotations are not yet released.
 - The released classifier was serialized with scikit-learn `1.7.2`. Newer
-  scikit-learn versions can emit pickle compatibility warnings; either pin the
-  released inference environment to `scikit-learn==1.7.2` or re-export the
-  classifier artifacts with the maintained environment.
-- Classification training defaults and dataloader conventions still need
-  alignment with canonical GT naming and region folders.
+  scikit-learn versions can emit pickle compatibility warnings.
+- Classification training defaults and the dataloader still have path and naming
+  assumptions that differ from the canonical public layout.
 - If the saved classifier metadata requires `uni2h`, access to the gated UNI2-h
   model is required because it cannot be shared openly. Request access at
   `https://huggingface.co/MahmoodLab/UNI2-h`. After access is approved,
@@ -323,6 +320,9 @@ Main training outputs:
 - training and CV plots
 - prediction summary figures
 
+Older density-estimation YAMLs may still point at legacy `density_maps` and
+`experiments_results` paths.
+
 ## 8. Run Full-Slice LR Inference
 
 Primary entry point:
@@ -373,8 +373,7 @@ Primary entry point:
 
 - `src/lr_inference/gt_predict_eval.py`
 
-This validation path depends on a future script under `src/lr_inference/` that
-will convert the test split from the density dataset into full-slice arrays named
+This validation path depends on converted full-slice arrays named
 `<image_id>_original_density_aligned.npy` under:
 
 ```text
@@ -419,8 +418,8 @@ uv run python -m src.lr_inference.gt_predict_eval \
   --save-visuals
 ```
 
-The exact test subset and `--input-dir` default should be verified once the GT
-preparation script exists.
+The correct `--input-dir` should match the slices covered by the converted GT
+arrays.
 
 Main outputs:
 
@@ -478,5 +477,3 @@ Required point-cloud inputs:
 - `*_points_preds.npy` from `$DATA_ROOT/output/full_lr_predictions/<PREDICTIONS_NAME>`
 - `<image_id>_bbox_lr.json` from `$DATA_ROOT/input/all_regions/low_res`
 - `pm<image_id>o.mnc` from `$DATA_ROOT/raw/low_res`
-
-Optional rotating GIF and STL/volume exports are tracked in [`../TODO.md`](../TODO.md).

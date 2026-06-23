@@ -153,9 +153,8 @@ Classification note:
   classification.
 - `resnet18` feature extraction is supported, but it requires training and
   releasing another classifier with `feature_model=resnet18`.
-- the released classifier was serialized with scikit-learn `1.7.2`; either
-  pin the released inference environment to `scikit-learn==1.7.2` or re-export
-  the classifier artifacts with the maintained environment.
+- the released classifier was serialized with scikit-learn `1.7.2`; newer
+  versions can emit pickle compatibility warnings.
 
 ## Public BigBrain Sources
 
@@ -179,9 +178,6 @@ The fast reproducible path currently assumes `--data-root data`, because several
 configs still use repo-relative `data/...` paths.
 
 Below is an expected data tree after running the full pipeline.
-
-Several configs still use repo-relative `data/...` paths; see `../TODO.md` for
-the remaining data-root-awareness work.
 
 ```text
 <DATA_ROOT>/
@@ -211,15 +207,15 @@ the remaining data-root-awareness work.
 |   |           |-- <image_id>_contours_hr.geojson
 |   |           `-- <image_id>_bbox_hr.json
 |   |-- train_test_splits/
-|   |   |-- segmentation/ # planned
+|   |   |-- segmentation/
 |   |   |   `-- segmentation_splits.csv
-|   |   `-- classification/ # planned
+|   |   `-- classification/
 |   |       `-- classification_splits.csv
 |   |-- custom_masks/
 |   |   `-- high_res/ # optional manually adjusted HR ROI masks
 |   |       |-- <image_id>_contours_hr.geojson
 |   |       `-- <image_id>_bbox_hr.json
-|   `-- classification_gt/... # not yet released
+|   `-- classification_gt/...
 |-- misc/
 |-- output/
 |   |-- segmentation/
@@ -242,10 +238,10 @@ the remaining data-root-awareness work.
 |   |       |-- train/...
 |   |       `-- dataset_info.json
 |   |-- test_lr_density_gt/
-|   |   `-- <DATASET_NAME>/ # future GT prep output
+|   |   `-- <DATASET_NAME>/
 |   |       `-- <image_id>_original_density_aligned.npy
 |   |-- lr_gt_eval/
-|   |   `-- <EVAL_NAME>/ # optional GT-evaluation outputs
+|   |   `-- <EVAL_NAME>/
 |   |       |-- metrics_summary.json
 |   |       `-- <image_id>_LR_crop_visualization.png
 |   |-- full_lr_predictions/
@@ -258,16 +254,9 @@ the remaining data-root-awareness work.
 |   |       `-- <image_id>_LR_crop_visualization.png
 |   `-- mesoscale_reconstruction/
 |       `-- <PREDICTIONS_NAME>/
-|           |-- point_cloud.csv
-|           |-- surface_plot.png # future surface visualization
-|           |-- surface_rotating_plot.gif # future 3D spinning visualization with class color
-|           `-- surface.ply # future surface mesh
+|           `-- point_cloud.csv
 |-- density_estimator_training/<EXPERIMENT_RESULT_NAME>/
 `-- models/
-    |-- original_weights/ # pre-finetuning weights
-    |   |-- classification/...
-    |   |-- density_estimation/...
-    |   `-- segmentation/...
     |-- classification/
     |   |-- ml_classifier/
     |   |   |-- model.joblib
@@ -336,7 +325,7 @@ mesoscale_reconstruction/allCA_best_model_128_96_smooth_b05_k5_roi
 | Custom HR ROI GeoJSON files | Optional manually adjusted all-region HR ROI masks in `input/custom_masks/high_res`; use them explicitly with `extract_hr_region_crops --ann-dir` |
 | Classified GeoJSON files | HR cell annotations with `Pyramidal`, `Interneuron`, and `Astrocyte` labels |
 | Density dataset | LR image patches, density maps, and ROI masks used for training |
-| Test LR density GT | Optional full-slice LR GT arrays for `gt_predict_eval.py`; creation script is planned |
+| Test LR density GT | Optional full-slice LR GT arrays for `gt_predict_eval.py` |
 
 ## HR/LR Transforms
 
@@ -351,7 +340,3 @@ Important references:
 Short rule of thumb: raw image arrays use `(z, x)`, geometric full-image pixel
 coordinates use `(x, z)`, and affine input/output order must be handled
 explicitly.
-
-## Open Work
-
-Known setup and artifact gaps are centralized in [`../TODO.md`](../TODO.md).

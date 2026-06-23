@@ -1,7 +1,8 @@
 # Test Pipeline
 
 This is the maintained smoke test for checking the public pipeline through LR
-density dataset creation without running GT evaluation or point-cloud exports.
+density dataset creation without running GT evaluation or point-cloud
+exports.
 
 It uses two image IDs, `3305` and `3348`, so `GroupShuffleSplit` validates the
 real train/test split path. It runs `RCA3` only, with all segmentation models
@@ -41,7 +42,7 @@ uv run python scripts/test_pipeline.py --skip-downloads --reuse-existing --keep-
 - Classification training from GT annotations.
 - All-region or full-ID-range segmentation/classification.
 - Density model training.
-- `gt_predict_eval.py`, because GT density array preparation is not implemented yet.
+- `gt_predict_eval.py`, because GT density array preparation is not automated yet.
 - Optional point-cloud rotating GIF and STL/volume export.
 
 ## Notes
