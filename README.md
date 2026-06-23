@@ -8,7 +8,7 @@
 This repository contains the official framework associated with the **CALHippo dataset**. It provides a multiscale workflow that bridges microscopic cell instances and macroscopic brain architecture, enabling the generation of biologically plausible 3D cellular point clouds from BigBrain histological sections.
 
 <div align="center">
-  <img src="media/logo/CALHippo_logo_transparent.png" alt="CALHippo Logo" width="400" />
+  <img src="media/logo/CALHippo_Logo_no_bg.png" alt="CALHippo Logo" width="400" />
 </div>
 
 ## Pipeline
