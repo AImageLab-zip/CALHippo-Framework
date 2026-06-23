@@ -21,9 +21,17 @@
 ## Public Branch Sync
 - Do not merge `density_refactoring` into the public branch with history; copy selected file contents and create a single public-branch commit instead.
 - For non-media files, update only Markdown files that already exist on the public branch.
+- Licensing files such as `LICENSE` and `THIRD_PARTY_NOTICES.md` may be added to the public branch when updating repository licensing.
 - Do not add private-only, old-notebook, deep-research, experiment-tracking, or other source-branch-only files to the public branch.
 - Replace the public `media/` directory with the source branch `media/` directory when refreshing public media assets.
 - Keep the public branch cleaned and reproducibility-focused; do not restore stale notebooks, extra research files, or non-public artifacts.
+
+## Licensing
+- Original CALHippo source code is released under Apache License 2.0.
+- Keep the Apache-2.0 `LICENSE` file standard; do not add custom restrictions there.
+- Model weights, trained checkpoints, datasets, derived annotations, rendered figures, notebook outputs, and other BigBrain-derived artifacts are released under CC BY-NC-SA 4.0 for non-commercial academic research use only.
+- Third-party model code and dependencies remain subject to their original upstream licenses and notices; keep relevant notices in source folders and/or `THIRD_PARTY_NOTICES.md`.
+- UNI2-h weights are not redistributed by this repository and must be obtained from the upstream provider.
 
 ## Repository Summary
 - Language: Python.

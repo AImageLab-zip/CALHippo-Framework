@@ -1,8 +1,9 @@
 [project]
-name = "neuro-brain"
+name = "calhippo-framework"
 version = "0.1.0"
-description = "BigBrain hippocampus preprocessing, segmentation, classification, density estimation, and LR reconstruction workflow."
+description = "Reusable CALHippo framework for human hippocampus cell annotation, density inference, and mesoscale mapping."
 readme = "README.md"
+license = "Apache-2.0"
 requires-python = ">=3.10, <=3.13"
 dependencies = [
     "cellpose[gui]",

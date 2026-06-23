@@ -116,6 +116,32 @@ Developer reference:
 
 See `AGENTS.md` for repository-specific development guidance.
 
+## License
+
+Original CALHippo source code is released under the Apache License 2.0.
+
+Code authors: Giovanni Casari and Ettore Candeloro, equal contribution.
+
+Model weights, trained checkpoints, datasets, derived annotations, rendered
+figures, notebook outputs, and other BigBrain-derived artifacts are not covered
+by the Apache License 2.0. These artifacts are released under Creative Commons
+Attribution-NonCommercial-ShareAlike 4.0 International (CC BY-NC-SA 4.0) for
+non-commercial academic research use only.
+
+Some parts of this repository include copied or modified code from upstream
+model projects used by the pipeline, including Cellpose, HoVer-Net, InstanSeg,
+StarDist, and related dependencies. Those files remain subject to their original
+upstream licenses and copyright notices. Where applicable, upstream notices are
+retained in the corresponding source folders and/or in `THIRD_PARTY_NOTICES.md`.
+
+UNI2-h weights are not redistributed by this repository. Users who need the
+UNI2-h classification path must request access from the upstream provider and
+authenticate locally.
+
+The CALHippo framework, released weights, and derived artifacts are intended for
+non-commercial research use and are not intended for clinical diagnosis, medical
+decision-making, or commercial deployment.
+
 ## Citations
 
 If you use this repository please cite both the following
