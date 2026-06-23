@@ -5,14 +5,24 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.9%2B-EE4C2C?logo=pytorch&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.20%2B-FF6F00?logo=tensorflow&logoColor=white)
 
-This repo is a BigBrain hippocampus workflow repository. It preprocesses raw
+This repository contains the official framework associated with the **CALHippo dataset**. It provides a multiscale workflow that bridges microscopic cell instances and macroscopic brain architecture, enabling the generation of biologically plausible 3D cellular point clouds from BigBrain histological sections.
+
+<div align="center">
+  <img src="media/logo/CALHippo_logo_transparent.png" alt="CALHippo Logo" width="400" />
+</div>
+
+## Pipeline
+
+The framework preprocesses raw
 high-resolution (HR) (a) and low-resolution (LR) (e) BigBrain slices, segments and
 classifies HR cells (b), maps the annotations into LR space (c), trains LR density models (d),
 runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
 ![neuro_brain_pipeline](media/PaperPipeline_Final.png)
 
-## CA Mesoscale Cell Resolved Point Cloud
+## Results
+
+### Infographic
 
 <p align="center">
   <a href="media/ca_pointcloud_infographic_web.webm">
@@ -20,9 +30,12 @@ runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
   </a>
 </p>
 
-<p align="center">
-  <a href="media/ca_pointcloud_infographic_web.webm">Watch the high res video version</a>
-</p>
+### All CA Mesocale Point Cloud
+
+<div align="center">
+  <img src="media/single_ca_animations/right_hippocampus_all_CAs_rotating.gif" alt="Right Hippocampus Rotating" width="48%" />
+  <img src="media/point_clouds/point_cloud_all_classes.gif" alt="Point Cloud All Classes" width="48%" />
+</div>
 
 ## Setup
 
