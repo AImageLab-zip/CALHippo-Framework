@@ -29,6 +29,7 @@
 - Language: Python.
 - Python: `>=3.10, <=3.13`.
 - Package manager: `uv`.
+- Project name: CALHippo Framework, the framework for the Cellular Annotation Labels for Hippocampus dataset.
 - Main code: `src/`.
 - Main configs: `experiments/`.
 - Main maintained preprocessing package: `src/preprocessing/`.
