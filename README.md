@@ -8,7 +8,7 @@
 This repository contains the official framework associated with the **CALHippo dataset**. It provides a multiscale workflow that bridges microscopic cell instances and macroscopic brain architecture, enabling the generation of biologically plausible 3D cellular point clouds from BigBrain histological sections.
 
 <div align="center">
-  <img src="media/logo/CALHippo_logo_transparent.png" alt="CALHippo Logo" width="400" />
+  <img src="media/logo/CALHippo_Logo_no_bg.png" alt="CALHippo Logo" width="400" />
 </div>
 
 ## Pipeline
@@ -22,28 +22,48 @@ runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
 ## Results
 
-### HR Segmentation and Classification
+<table align="center">
+  <tr>
+    <td align="center" width="50%">
+      <a href="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3.mp4">
+        <img src="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3_preview.gif" width="100%" alt="HR Segmentation and Classification Merging Pipeline">
+      </a>
+    </td>
+    <td align="center" width="50%">
+      <a href="media/lr_density_predictions/lr_density_predictions_3096.mp4">
+        <img src="media/lr_density_predictions/lr_density_predictions_3096_preview.gif" width="100%" alt="LR density predictions and sampled points">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center"><strong>HR Segmentation, Merging and Classification (b)</strong></td>
+    <td align="center"><strong>LR Full-Slice Density Prediction and Sampling (f)</strong></td>
+  </tr>
+</table>
 
-<p align="center">
-  <a href="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3.mp4">
-    <img src="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3_preview.gif" width="720" alt="HR Segmentation and Classification Merging Pipeline">
-  </a>
-</p>
-
-### Point Cloud All CA Class Resolved Reconstruction  
-
-<p align="center">
-  <a href="media/point_cloud_and_ca_infographic/ca_pointcloud_infographic.mp4">
-    <img src="media/point_cloud_and_ca_infographic/ca_pointcloud_infographic_preview.gif" width="720" alt="CA mesoscale cell-resolved point cloud infographic">
-  </a>
-</p>
-
-### All CA Mesocale Point Cloud
-
-<div align="center">
-  <img src="media/single_ca_animations/right_hippocampus_all_CAs_rotating.gif" alt="Right Hippocampus Rotating" width="48%" />
-  <img src="media/point_clouds/point_cloud_all_classes.gif" alt="Point Cloud All Classes" width="48%" />
-</div>
+<table align="center">
+  <tr>
+    <td align="center" colspan="2" width="100%">
+      <a href="media/point_cloud_and_ca_infographic/ca_pointcloud_infographic.mp4">
+        <img src="media/point_cloud_and_ca_infographic/ca_pointcloud_infographic_preview.gif" width="100%" alt="CA mesoscale cell-resolved point cloud infographic">
+      </a>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><strong>All CA Class Resolved Point Cloud Reconstruction (g)</strong></td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="media/single_ca_animations/right_hippocampus_all_CAs_rotating.gif" width="100%" alt="Right Hippocampus Rotating">
+    </td>
+    <td align="center" width="50%">
+      <img src="media/point_clouds/point_cloud_all_classes.gif" width="100%" alt="Point Cloud All Classes">
+    </td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2"><strong>All CA Mesocale Volumes (left) and predicted point cloud (right)</strong></td>
+  </tr>
+</table>
 
 ## Setup
 
