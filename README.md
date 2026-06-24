@@ -4,12 +4,11 @@
 ![uv](https://img.shields.io/badge/uv-package%20manager-5E6AD2)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.9%2B-EE4C2C?logo=pytorch&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.20%2B-FF6F00?logo=tensorflow&logoColor=white)
-[![Hugging Face Models](https://img.shields.io/badge/Hugging%20Face-Models-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/AImageLab-Zip/CALHippo-Framework-Models)
 
 This repository contains the official framework associated with the **CALHippo dataset**. It provides a multiscale workflow that bridges microscopic cell instances and macroscopic brain architecture, enabling the generation of biologically plausible 3D cellular point clouds from BigBrain histological sections.
 
 <div align="center">
-  <img src="media/logo/CALHippo_Logo_no_bg.png" alt="CALHippo Logo" width="400" />
+  <img src="media/logo/CALHippo_logo_transparent.png" alt="CALHippo Logo" width="400" />
 </div>
 
 ## Pipeline
@@ -19,15 +18,23 @@ high-resolution (HR) (a) and low-resolution (LR) (e) BigBrain slices, segments a
 classifies HR cells (b), maps the annotations into LR space (c), trains LR density models (d),
 runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
-![neuro_brain_pipeline](media/PaperPipeline_Final.png)
+![neuro_brain_pipeline](media/pipeline/PaperPipeline_Final.png)
 
 ## Results
 
-### Infographic
+### HR Segmentation and Classification
 
 <p align="center">
-  <a href="media/ca_pointcloud_infographic_web.webm">
-    <img src="media/ca_pointcloud_infographic_preview.gif" width="720" alt="CA mesoscale cell-resolved point cloud infographic">
+  <a href="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3.mp4">
+    <img src="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3_preview.gif" width="720" alt="HR Segmentation and Classification Merging Pipeline">
+  </a>
+</p>
+
+### Point Cloud All CA Class Resolved Reconstruction  
+
+<p align="center">
+  <a href="media/point_cloud_and_ca_infographic/ca_pointcloud_infographic.mp4">
+    <img src="media/point_cloud_and_ca_infographic/ca_pointcloud_infographic_preview.gif" width="720" alt="CA mesoscale cell-resolved point cloud infographic">
   </a>
 </p>
 
@@ -145,77 +152,17 @@ decision-making, or commercial deployment.
 
 ## Citations
 
-If you use this repository please cite both the following
-resources:
+If you use our dataset/code you must cite the following:
 
 ```bibtex
-@article{Amunts2013BigBrain,
-  author  = {Amunts, Katrin and Lepage, Claude and Borgeat, Louis and
-             Mohlberg, Hartmut and Dickscheid, Timo and Rousseau, Marc-Etienne and
-             Bludau, Sebastian and Bazin, Pierre-Louis and Lewis, Lindsay B. and
-             Oros-Peusquens, Anne-Marie and Shah, N. Jon and Lippert, Thomas and
-             Zilles, Karl and Evans, Alan C.},
-  title   = {BigBrain: An ultrahigh-resolution 3D human brain model},
-  journal = {Science},
-  year    = {2013},
-  volume  = {340},
-  number  = {6139},
-  pages   = {1472--1475},
-  doi     = {10.1126/science.1235381},
-  url     = {https://doi.org/10.1126/science.1235381}
-}
-
-@misc{bigbrain-hr,
-  removed_doi = {10.25493/JWTF-PAB},
-  url = {https://search.kg.ebrains.eu/instances/73c1fa55-d099-4854-8cda-c9a403c6080a},
-  removed_author = {Schiffer, Christian and Lepage, Claude and Omidyeganeh, Mona and Mohlberg, Hartmut and Brandstetter, Andrea and Bludau, Sebastian and Heuer, Katja and Toussaint, Paule-Joanne and Wenzel, Susanne and Dickscheid, Timo and Evans, Alan C. and Amunts, Katrin},
-  author = {Schiffer, Christian and others},
-  title = {{Selected 1 micron scans of BigBrain histological sections (v1.0)}},
-  howpublished = {EBRAINS, 2022},
-  removed_year = {2022},
-  removed_copyright = {Creative Commons Attribution Non Commercial Share Alike 4.0 International}
-}
-
-@article{Pachitariu2025,
-  title={Cellpose-SAM: superhuman generalization for cellular segmentation},
-  author={Pachitariu, Marius and Rariden, Michael and Stringer, Carsen},
-  journal={BioRxiv},
-  pages={2025--04},
-  year={2025},
-  publisher={Cold Spring Harbor Laboratory}
-}
-
-@article{Chen2024,
-  title={Towards a General-Purpose Foundation Model for Computational Pathology},
-  author={Chen, Richard J and Ding, Tong and Lu, Ming Y and Williamson, Drew FK and Jaume, Guillaume and Chen, Bowen and Zhang, Andrew and Shao, Daniel and Song, Andrew H and Shaban, Muhammad and others},
-  journal={Nature Medicine},
-  publisher={Nature Publishing Group},
-  year={2024}
-}
-
-@article{Goldsborough2024,
-  title={InstanSeg: an embedding-based instance segmentation algorithm optimized for accurate, efficient and portable cell segmentation},
-  author={Goldsborough, Thibaut and Philps, Ben and O'Callaghan, Alan and Inglis, Fiona and Leplat, Leo and Filby, Andrew and Bilen, Hakan and Bankhead, Peter},
-  journal={arXiv preprint arXiv:2408.15954},
-  year={2024}
-}
-
-@inproceedings{Schmidt2018,
-  title={Cell detection with star-convex polygons},
-  author={Schmidt, Uwe and Weigert, Martin and Broaddus, Coleman and Myers, Gene},
-  booktitle={International conference on medical image computing and computer-assisted intervention},
-  pages={265--273},
-  year={2018},
-  organization={Springer}
-}
-
-@article{Graham2019,
-  title={Hover-net: Simultaneous segmentation and classification of nuclei in multi-tissue histology images},
-  author={Graham, Simon and Vu, Quoc Dang and Raza, Shan E Ahmed and Azam, Ayesha and Tsang, Yee Wah and Kwak, Jin Tae and Rajpoot, Nasir},
-  journal={Medical image analysis},
-  volume={58},
-  pages={101563},
-  year={2019},
-  publisher={Elsevier}
+@inproceedings{2026MICCAI_calhippo,
+  title={CALHippo: Cell Segmentation for Neuronal Density Inference in the Human Hippocampus},
+  author={Casari, Giovanni and Candeloro, Ettore and Gandolfi, Daniela and Mapelli, Jonathan and Bolelli, Federico and Grana, Costantino},
+  year={2026},
+  month={June},
+  book={Medical Image Computing and Computer Assisted Intervention – MICCAI 2026},
+  booktitle={Medical Image Computing and Computer Assisted Intervention – MICCAI 2026},
+  venue={Strasbourg, France},
+  keywords={Human Brain, Cell Segmentation, Density Estimation}
 }
 ```
