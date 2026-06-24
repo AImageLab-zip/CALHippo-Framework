@@ -1,6 +1,6 @@
 # Data Setup
 
-This document describes the data required by `neuro_brain` and how to create the
+This document describes the data required by the repository and how to create the
 expected folder structure.
 
 The setup script follows the data sources listed in
@@ -8,22 +8,22 @@ The setup script follows the data sources listed in
 
 ## Quick Setup (recommended)
 
-> [!WARNING]
-> The highly recommended value is the repo-local `./data` folder and it's the script default.
-> You can specify a custom path with the flag `--data-root=yourcustompath`. For simplicity we will specify an env var like: `DATA_ROOT=data` to use in the following commands.
-
 Create the folder structure with the default data root:
 
 ```bash
 uv run python scripts/setup_data.py #defaults to ./data folder in the repo root. Highly recommended.
 ```
 
+> [!WARNING]
+> The highly recommended folder for the framework data, is the repo_local `./data`, and it's the script default.
+> You can specify a custom path with the flag `--data-root=yourcustompath`. For simplicity we will specify an env var like: `DATA_ROOT=data` to use in the following commands.
+
 ### 1. Folder Setup
 
 Create the folder structure with a custom data root:
 
 ```bash
-uv run python scripts/setup_data.py --data-root /path/to/neuro_brain_data
+uv run python scripts/setup_data.py --data-root /path/to/data_root
 #or
 uv run python scripts/setup_data.py --data-root "$DATA_ROOT"
 #where you specified the DATA_ROOT env in your terminal
@@ -163,7 +163,7 @@ Classification note:
 | LR coronal images, `.mnc` | `https://ftp.bigbrainproject.org/bigbrain-ftp/BigBrainRelease.2015/2D_Final_Sections/Coronal/Minc` | `--download-lr`, `--download-all` |
 | HR aligned images, `.tif` plus affine `.json` | `https://data-proxy.ebrains.eu/api/v1/buckets/p22717-hbp-d000070_BigBrain-selected_1um_scans_pub/v1.0/aligned/` | `--download-hr`, `--download-all` |
 | Hippocampal surfaces, `.surf.gii` | `https://ftp.bigbrainproject.org/bigbrain-ftp/BigBrainRelease.2015/Hippocampus_Segmentation/gii/` | `--download-surfaces`, `--download-all` |
-| Model artifacts | `https://huggingface.co/AImageLab-Zip/big_brain_models` | `--download-weights`, `--download-all` |
+| Model artifacts | `https://huggingface.co/AImageLab-Zip/CALHippo-Framework-Models` | `--download-weights`, `--download-all` |
 | UNI2-h feature encoder | `https://huggingface.co/MahmoodLab/UNI2-h` | Automatic at classification runtime after gated access and HF authentication |
 
 The HR source is the EBRAINS dataset "Selected 1 micron scans of BigBrain

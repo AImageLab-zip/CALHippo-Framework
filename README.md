@@ -1,4 +1,4 @@
-# CALHippo Framework - the framework for the Cellular Annotation Labels for Hippocampus dataset
+# CALHippo Framework - the framework for the Cellular Annotation Library for the Hippocampus dataset
 
 ![Python](https://img.shields.io/badge/Python-3.10--3.13-3776AB?logo=python&logoColor=white)
 ![uv](https://img.shields.io/badge/uv-package%20manager-5E6AD2)
@@ -18,7 +18,7 @@ high-resolution (HR) (a) and low-resolution (LR) (e) BigBrain slices, segments a
 classifies HR cells (b), maps the annotations into LR space (c), trains LR density models (d),
 runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
-![neuro_brain_pipeline](media/pipeline/PaperPipeline_Final.png)
+![calhippo_pipeline](media/pipeline/PaperPipeline_Final.png)
 
 ## Results
 
@@ -47,7 +47,7 @@ runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 
 ## Setup
 
-Clone this repo, `cd` into the repository folder `neuro_brain` and install [uv](https://docs.astral.sh/uv/getting-started/installation/):
+Clone this repo, `cd` into the repository root and install [uv](https://docs.astral.sh/uv/getting-started/installation/):
 
 ```bash
 curl -LsSf https://astral.sh/uv/install.sh | sh

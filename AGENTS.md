@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## Purpose
-- This file guides coding agents working in `neuro_brain`.
+- This file guides coding agents working in the repository root.
 - Use it together with `README.md`.
 - Prefer the maintained end-to-end workflow over older helper scripts.
 
@@ -37,7 +37,7 @@
 - Language: Python.
 - Python: `>=3.10, <=3.13`.
 - Package manager: `uv`.
-- Project name: CALHippo Framework, the framework for the Cellular Annotation Labels for Hippocampus dataset.
+- Project name: CALHippo Framework, the framework for the Cellular Annotation Library for the Hippocampus dataset.
 - Main code: `src/`.
 - Main configs: `experiments/`.
 - Main maintained preprocessing package: `src/preprocessing/`.
