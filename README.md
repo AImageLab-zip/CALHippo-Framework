@@ -1,4 +1,4 @@
-# CALHippo Framework - the framework for the Cellular Annotation Library for the Hippocampus dataset
+# CALHippo Framework - Codebase of the Cellular Annotation Library for the Hippocampus
 
 ![Python](https://img.shields.io/badge/Python-3.10--3.13-3776AB?logo=python&logoColor=white)
 ![uv](https://img.shields.io/badge/uv-package%20manager-5E6AD2)
