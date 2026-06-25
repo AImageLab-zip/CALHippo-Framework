@@ -4,6 +4,12 @@
 ![uv](https://img.shields.io/badge/uv-package%20manager-5E6AD2)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.9%2B-EE4C2C?logo=pytorch&logoColor=white)
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.20%2B-FF6F00?logo=tensorflow&logoColor=white)
+[![Models](https://img.shields.io/badge/Models-Hugging%20Face-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/AImageLab-Zip/CALHippo-Framework-Models)
+
+> [!IMPORTANT]
+> CALHippo has been accepted at [MICCAI 2026](https://conferences.miccai.org/2026/)! The current preprint version is available [here](https://federicobolelli.it/media/publications/pdfs/Paper-0727.pdf). See the [citation](#citations) below.
+> 
+> [![Paper](https://img.shields.io/badge/Paper-preprint-8A2BE2)](https://federicobolelli.it/media/publications/pdfs/Paper-0727.pdf)
 
 This repository contains the official framework associated with the **CALHippo dataset**. It provides a multiscale workflow that bridges microscopic cell instances and macroscopic brain architecture, enabling the generation of biologically plausible 3D cellular point clouds from BigBrain histological sections.
 
