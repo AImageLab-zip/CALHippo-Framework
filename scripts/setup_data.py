@@ -1,7 +1,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import re
+import shutil
+import zipfile
 from pathlib import Path
 from urllib.parse import urljoin
 
@@ -27,7 +30,13 @@ SURFACE_BASE_URL = (
 DOWNLOAD_CHUNK_SIZE = 8 * 1024 * 1024
 DOWNLOAD_TIMEOUT = (10, 120)
 DEFAULT_IDS_FILE = Path(__file__).with_name("default_lr_ids.txt")
-HF_MODELS_REPO_ID = "AImageLab-Zip/big_brain_models"
+CALHIPPO_DATASET_SHA256 = (
+    "1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754"
+)
+CALHIPPO_DATASET_ROOT_NAME = "CALHippo_Dataset_v1.0"
+CALHIPPO_DATASET_POINT_CLOUD_RUN = "calhippo_dataset_v1.0"
+DEFAULT_CLASSIFICATION_EXPERIMENT = "ml_classifier_logistic_encoder_uni2h"
+HF_MODELS_REPO_ID = "AImageLab-Zip/CALHippo-Framework-Models"
 HF_MODELS_REVISION = "main"
 REGIONS = ["RCA1", "RCA2", "RCA3", "RCA4"]
 RETRY_STATUS_CODES = (429, 500, 502, 503, 504)
@@ -149,6 +158,17 @@ def parse_args() -> argparse.Namespace:
         "--download-weights",
         action="store_true",
         help="Download released model artifacts from Hugging Face.",
+    )
+    parser.add_argument(
+        "--calhippo-dataset-zip",
+        type=Path,
+        default=None,
+        help=(
+            "Path to CALHippo_Dataset_v1.0.zip downloaded from the CALHippo "
+            "dataset website. Verifies SHA-256, extracts it, places released "
+            "HR crops/annotations/point cloud into the data tree, and downloads "
+            "the matching HR affine JSONs."
+        ),
     )
     parser.add_argument(
         "--weights-dir",
@@ -479,6 +499,162 @@ def download_hr_images(
     )
 
 
+def download_hr_affines(
+    data_root: Path,
+    image_ids: list[str],
+    force: bool,
+    dry_run: bool,
+) -> None:
+    output_dir = data_root / "raw" / "high_res"
+    with build_download_session() as session:
+        for image_id in image_ids:
+            download_file(
+                url=hr_affine_url(image_id),
+                output_path=output_dir / f"B20_{image_id}_affine.json",
+                force=force,
+                dry_run=dry_run,
+                description=f"B20_{image_id}_affine.json",
+                session=session,
+            )
+
+
+def sha256sum(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for chunk in iter(lambda: handle.read(DOWNLOAD_CHUNK_SIZE), b""):
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def safe_extract_zip(zip_path: Path, output_dir: Path, dry_run: bool) -> None:
+    if dry_run:
+        print(f"DRY-RUN extract: {zip_path} -> {output_dir}")
+        return
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    output_root = output_dir.resolve()
+    with zipfile.ZipFile(zip_path) as archive:
+        for member in archive.infolist():
+            target_path = (output_dir / member.filename).resolve()
+            if output_root not in target_path.parents and target_path != output_root:
+                raise RuntimeError(f"Unsafe zip member path: {member.filename}")
+        archive.extractall(output_dir)
+
+
+def copy_path(src: Path, dst: Path, force: bool, dry_run: bool) -> None:
+    if dry_run:
+        print(f"DRY-RUN copy: {src} -> {dst}")
+        return
+    if not src.exists():
+        raise FileNotFoundError(f"Expected dataset path not found: {src}")
+    if dst.exists() and force:
+        if dst.is_dir():
+            shutil.rmtree(dst)
+        else:
+            dst.unlink()
+    if src.is_dir():
+        shutil.copytree(src, dst, dirs_exist_ok=True)
+    else:
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(src, dst)
+
+
+def ingest_calhippo_dataset_zip(
+    zip_path: Path,
+    data_root: Path,
+    force: bool,
+    dry_run: bool,
+) -> None:
+    if not zip_path.exists():
+        raise FileNotFoundError(f"CALHippo dataset zip not found: {zip_path}")
+
+    print(f"Verifying SHA-256: {zip_path}")
+    actual_sha256 = sha256sum(zip_path)
+    if actual_sha256 != CALHIPPO_DATASET_SHA256:
+        raise RuntimeError(
+            "CALHippo dataset checksum mismatch. "
+            f"Expected {CALHIPPO_DATASET_SHA256}, got {actual_sha256}."
+        )
+    print("Checksum OK.")
+
+    extract_dir = data_root / "misc" / "calhippo_dataset_release"
+    dataset_dir = extract_dir / CALHIPPO_DATASET_ROOT_NAME
+    safe_extract_zip(zip_path, extract_dir, dry_run=dry_run)
+
+    hr_images_dir = dataset_dir / "HR_annotations" / "HR_images"
+    annotations_dir = dataset_dir / "HR_annotations" / "HR_annotations"
+    point_cloud_path = dataset_dir / "point_cloud" / "point_cloud.csv"
+
+    if not dry_run:
+        for expected_path in [hr_images_dir, annotations_dir, point_cloud_path]:
+            if not expected_path.exists():
+                raise FileNotFoundError(
+                    f"Expected CALHippo dataset path not found: {expected_path}"
+                )
+
+    for region in REGIONS:
+        copy_path(
+            src=hr_images_dir / region,
+            dst=data_root / "input" / "single_regions" / "high_res" / region,
+            force=force,
+            dry_run=dry_run,
+        )
+        output_dir = (
+            data_root
+            / "output"
+            / "classification"
+            / region
+            / DEFAULT_CLASSIFICATION_EXPERIMENT
+        )
+        if dry_run:
+            print(f"DRY-RUN create directory: {output_dir}")
+        else:
+            output_dir.mkdir(parents=True, exist_ok=True)
+        annotation_paths = sorted(
+            (annotations_dir / region).glob("*_classification_results.geojson")
+        )
+        if not annotation_paths and not dry_run:
+            raise FileNotFoundError(
+                "No classification GeoJSON files found under "
+                f"{annotations_dir / region}"
+            )
+        for annotation_path in annotation_paths:
+            copy_path(
+                src=annotation_path,
+                dst=output_dir / annotation_path.name,
+                force=force,
+                dry_run=dry_run,
+            )
+
+    point_cloud_output = (
+        data_root
+        / "output"
+        / "mesoscale_reconstruction"
+        / CALHIPPO_DATASET_POINT_CLOUD_RUN
+        / "point_cloud.csv"
+    )
+    copy_path(
+        src=point_cloud_path,
+        dst=point_cloud_output,
+        force=force,
+        dry_run=dry_run,
+    )
+
+    image_ids = sorted(
+        {path.name.split("_")[0] for path in hr_images_dir.glob("RCA*/*_HR_crop.tif")},
+        key=int,
+    )
+    if not image_ids and not dry_run:
+        raise FileNotFoundError(f"No HR crop files found under {hr_images_dir}")
+    download_hr_affines(
+        data_root=data_root,
+        image_ids=image_ids,
+        force=force,
+        dry_run=dry_run,
+    )
+    print(f"CALHippo dataset placed under data tree. Point cloud: {point_cloud_output}")
+
+
 def test_hr_images_available(image_ids: list[str]) -> bool:
     all_ok = True
     with build_download_session() as session:
@@ -642,6 +818,21 @@ def test_model_weights_available(repo_id: str, revision: str) -> bool:
     return all_ok
 
 
+def test_calhippo_dataset_zip(zip_path: Path) -> bool:
+    if not zip_path.exists():
+        print(f"[MISSING] CALHippo dataset zip: {zip_path}")
+        return False
+    actual_sha256 = sha256sum(zip_path)
+    if actual_sha256 != CALHIPPO_DATASET_SHA256:
+        print(
+            "[MISMATCH] CALHippo dataset zip checksum: "
+            f"expected {CALHIPPO_DATASET_SHA256}, got {actual_sha256}"
+        )
+        return False
+    print(f"[OK] CALHippo dataset zip checksum: {zip_path}")
+    return True
+
+
 def print_next_steps(data_root: Path) -> None:
     print("\nData setup complete.")
     print(f"Data root: {data_root.resolve() if data_root.exists() else data_root}")
@@ -663,6 +854,7 @@ def main() -> None:
     download_hr_flag = args.download_all or args.download_hr
     download_lr_flag = args.download_all or args.download_lr
     download_weights_flag = args.download_all or args.download_weights
+    calhippo_dataset_flag = args.calhippo_dataset_zip is not None
     image_ids = collect_image_ids(args) if download_hr_flag or download_lr_flag else []
 
     create_dirs(required_dirs(data_root), dry_run=args.dry_run or args.test)
@@ -684,6 +876,9 @@ def main() -> None:
                 test_model_weights_available(args.hf_repo_id, args.hf_revision)
                 and all_ok
             )
+
+        if calhippo_dataset_flag:
+            all_ok = test_calhippo_dataset_zip(args.calhippo_dataset_zip) and all_ok
 
         if all_ok:
             print("\nTest mode passed: all selected assets are reachable.")
@@ -715,6 +910,14 @@ def main() -> None:
             weights_dir=args.weights_dir,
             repo_id=args.hf_repo_id,
             revision=args.hf_revision,
+            force=args.force,
+            dry_run=args.dry_run,
+        )
+
+    if calhippo_dataset_flag:
+        ingest_calhippo_dataset_zip(
+            zip_path=args.calhippo_dataset_zip,
+            data_root=data_root,
             force=args.force,
             dry_run=args.dry_run,
         )

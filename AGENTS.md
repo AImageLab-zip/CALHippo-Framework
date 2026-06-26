@@ -20,7 +20,7 @@
 
 ## Public Branch Sync
 - Do not merge `density_refactoring` into the public branch with history; copy selected file contents and create a single public-branch commit instead.
-- For non-media files, update only Markdown files that already exist on the public branch.
+- For non-media files, update `src/` files and files already present on the public branch, regardless of extension.
 - Licensing files such as `LICENSE` and `THIRD_PARTY_NOTICES.md` may be added to the public branch when updating repository licensing.
 - Do not add private-only, old-notebook, deep-research, experiment-tracking, or other source-branch-only files to the public branch.
 - Replace the public `media/` directory with the source branch `media/` directory when refreshing public media assets.
@@ -56,6 +56,7 @@
 - Activate the venv interactively with `source .venv/bin/activate` if needed.
 - Create and populate data through `scripts/setup_data.py`; prefer `documents/data_setup.md` for setup details and supported flags.
 - Create the data tree with `uv run python scripts/setup_data.py --data-root data`.
+- Place the released CALHippo dataset with `uv run python scripts/setup_data.py --data-root data --calhippo-dataset-zip CALHippo_Dataset_v1.0.zip`; this verifies the archive, extracts it, copies released HR crops/classifications/point cloud, and downloads matching HR affine JSONs.
 - Download aligned HR data with `uv run python scripts/setup_data.py --data-root data --download-hr`; when no IDs are provided it uses `scripts/default_lr_ids.txt`.
 - Download model artifacts with `uv run python scripts/setup_data.py --data-root data --download-weights`; private repos require `hf auth login` or `HF_TOKEN`.
 - Canonical maintained region names are `RCA1`, `RCA2`, `RCA3`, and `RCA4`.
@@ -80,6 +81,7 @@
 ```bash
 uv sync
 uv run python scripts/setup_data.py --data-root data
+uv run python scripts/setup_data.py --data-root data --calhippo-dataset-zip CALHippo_Dataset_v1.0.zip
 uv run python scripts/setup_data.py --data-root data --download-all
 uv run python scripts/setup_data.py --data-root data --download-hr
 uv run python scripts/setup_data.py --data-root data --download-weights

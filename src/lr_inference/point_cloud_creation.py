@@ -1,4 +1,3 @@
-
 import argparse
 import json
 import logging
@@ -64,9 +63,9 @@ def parse_args() -> argparse.Namespace:
         ),
     )
     parser.add_argument(
-        "--insert-ca-areas",
+        "--exclude-ca-areas",
         action="store_true",
-        help="Insert CA area column inside the created CSV file.",
+        help="Exclude CA area column from the created CSV file.",
     )
     parser.add_argument(
         "--lr-slice-world-y-start",
@@ -105,7 +104,7 @@ def discover_files(
     input_dir: Path,
     bbox_dir: Path,
     full_lr_dir: Path,
-    insert_ca: bool = False,
+    exclude_ca: bool = False,
     lr_slice_world_y_start: float = LR_SLICE_WORLD_Y_START,
     lr_slice_world_y_step: float = LR_SLICE_WORLD_Y_STEP,
 ):
@@ -133,7 +132,7 @@ def discover_files(
             continue
 
         # Optional CA area file
-        if insert_ca:
+        if not exclude_ca:
             ca_area_file = input_dir / f"{wsi_id}_ca_areas.npy"
 
             if not ca_area_file.exists():
@@ -229,7 +228,7 @@ def map_single_wsi(wsi_entry: dict) -> pd.DataFrame:
                         "world_x": round(world_point[0], 4),
                         "world_y": round(y_world, 4),
                         "world_z": round(world_point[1], 4),
-                        "channel": channel_idx,
+                        "class": channel_idx,
                         "count": value,
                         "ca_area": ca_value,
                     }
@@ -263,7 +262,6 @@ def map_all_wsis(wsi_entries: list, num_workers: int = 1) -> pd.DataFrame:
     return combined_df
 
 
-
 def main():
     args = parse_args()
     setup_logging(debug=args.debug)
@@ -271,7 +269,7 @@ def main():
     input_dir = args.input_dir
     bbox_dir = args.bbox_dir
     full_lr_dir = args.full_lr_dir
-    insert_ca_areas = args.insert_ca_areas
+    exclude_ca_areas = args.exclude_ca_areas
     output_dir = args.output_dir
     num_workers = args.num_workers
 
@@ -280,7 +278,7 @@ def main():
         input_dir,
         bbox_dir,
         full_lr_dir,
-        insert_ca_areas,
+        exclude_ca_areas,
         lr_slice_world_y_start=args.lr_slice_world_y_start,
         lr_slice_world_y_step=args.lr_slice_world_y_step,
     )

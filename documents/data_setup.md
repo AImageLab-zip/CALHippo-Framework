@@ -18,6 +18,110 @@ uv run python scripts/setup_data.py #defaults to ./data folder in the repo root.
 > The highly recommended folder for the framework data, is the repo_local `./data`, and it's the script default.
 > You can specify a custom path with the flag `--data-root=yourcustompath`. For simplicity we will specify an env var like: `DATA_ROOT=data` to use in the following commands.
 
+## Released CALHippo Dataset Shortcut
+
+> [!IMPORTANT]
+> To avoid downloading and processing hundreds of GB of raw HR BigBrain data,
+> use the released CALHippo dataset from
+> [https://ditto.ing.unimore.it/calhippo/](https://ditto.ing.unimore.it/calhippo/).
+> It includes preprocessed HR crops, crop metadata, classified cell annotations,
+> and the mesoscale point cloud. With these files in place, you can skip HR
+> preprocessing, HR segmentation, and HR classification.
+
+1. Sign in at [https://ditto.ing.unimore.it/calhippo/](https://ditto.ing.unimore.it/calhippo/).
+2. Download `CALHippo_Dataset_v1.0.zip` (`~6 GB`).
+3. Verify the archive checksum.
+4. Run the setup script on the downloaded archive.
+
+The archive contains 24 high-resolution BigBrain slices at `1 µm/px`, HR crops
+for `RCA1`, `RCA2`, `RCA3`, and `RCA4`, cell annotations for excitatory neurons,
+inhibitory interneurons, and glial cells, plus a point cloud in BigBrain
+coordinates.
+
+Released archive structure:
+
+```text
+CALHippo_Dataset_v1.0/
+|-- HR_annotations/
+|   |-- README_hr_annotations.txt
+|   |-- HR_images/
+|   |   |-- RCA1/
+|   |   |-- RCA2/
+|   |   |-- RCA3/
+|   |   |   |-- 3096_HR_crop.tif
+|   |   |   |-- 3096_bbox_hr.json
+|   |   |   `-- 3096_contours_hr.geojson
+|   |   `-- RCA4/
+|   `-- HR_annotations/
+|       |-- RCA1/
+|       |-- RCA2/
+|       |-- RCA3/
+|       |   `-- 3096_classification_results.geojson
+|       `-- RCA4/
+|-- LICENSE.md
+`-- point_cloud/
+    |-- README_point_cloud.txt
+    `-- point_cloud.csv
+```
+
+Expected SHA-256:
+
+```text
+1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754
+```
+
+Linux checksum check:
+
+```bash
+test "$(sha256sum CALHippo_Dataset_v1.0.zip | cut -d ' ' -f 1)" = "1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754" && printf 'true\n' || printf 'false\n'
+```
+
+macOS checksum check:
+
+```bash
+test "$(shasum -a 256 CALHippo_Dataset_v1.0.zip | cut -d ' ' -f 1)" = "1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754" && printf 'true\n' || printf 'false\n'
+```
+
+Windows PowerShell checksum check:
+
+```powershell
+if ((Get-FileHash .\CALHippo_Dataset_v1.0.zip -Algorithm SHA256).Hash.ToLower() -eq "1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754") { "true" } else { "false" }
+```
+
+Place the released files in the default framework layout from the repository root:
+
+```bash
+DATA_ROOT=data
+uv run python scripts/setup_data.py \
+  --data-root "$DATA_ROOT" \
+  --calhippo-dataset-zip CALHippo_Dataset_v1.0.zip
+```
+
+This verifies the SHA-256 checksum, extracts the archive under
+`data/misc/calhippo_dataset_release/`, copies the released files into the
+expected pipeline locations, and downloads only the required HR affine JSONs.
+
+The released dataset replaces these pipeline stages for the included HR slices:
+
+| Released data | Framework destination | Lets you skip |
+| --- | --- | --- |
+| `HR_annotations/HR_images/RCA*/` | `data/input/single_regions/high_res/RCA*/` | HR crop extraction for these slices |
+| `HR_annotations/HR_annotations/RCA*/*_classification_results.geojson` | `data/output/classification/RCA*/ml_classifier_logistic_encoder_uni2h/` | HR segmentation and classification |
+| `point_cloud/point_cloud.csv` | `data/output/mesoscale_reconstruction/calhippo_dataset_v1.0/point_cloud.csv` | point-cloud reconstruction if you only need the released result |
+
+To rebuild the LR density dataset from the released HR annotations, you still need
+the matching LR `.mnc` files, surfaces, and model weights. Download them with:
+
+```bash
+uv run python scripts/setup_data.py --data-root "$DATA_ROOT" --download-lr --download-surfaces --download-weights
+```
+
+Then continue from LR density dataset creation:
+
+```bash
+uv run python -m src.density_estimator.datasets.create_dataset
+```
+
 ### 1. Folder Setup
 
 Create the folder structure with a custom data root:
