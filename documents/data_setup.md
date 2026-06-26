@@ -6,7 +6,16 @@ expected folder structure.
 The setup script follows the data sources listed in
 `src/preprocessing/README.md`.
 
-## Quick Setup (recommended)
+## Choose A Setup Path
+
+| Goal | Start here |
+| --- | --- |
+| Use the released CALHippo dataset and skip the HR pipeline | [Use The Released CALHippo Dataset](#use-the-released-calhippo-dataset) |
+| Reproduce the full process from raw data | [Download All Raw Data](#download-all-raw-data) |
+| Download only LR data, surfaces, weights, or selected IDs | [Download Selected Data](#download-selected-data) |
+| Check where files should be placed | [Expected Data Root](#expected-data-root) |
+
+## Create The Data Folder
 
 Create the folder structure with the default data root:
 
@@ -15,114 +24,53 @@ uv run python scripts/setup_data.py #defaults to ./data folder in the repo root.
 ```
 
 > [!WARNING]
-> The highly recommended folder for the framework data, is the repo_local `./data`, and it's the script default.
-> You can specify a custom path with the flag `--data-root=yourcustompath`. For simplicity we will specify an env var like: `DATA_ROOT=data` to use in the following commands.
+> Use repo-local `./data` unless you know you need a custom data root.
+> The examples below assume `DATA_ROOT=data`.
 
-## Released CALHippo Dataset Shortcut
+## Use The Released CALHippo Dataset
 
 > [!IMPORTANT]
-> To avoid downloading and processing hundreds of GB of raw HR BigBrain data,
-> use the released CALHippo dataset from
-> [https://ditto.ing.unimore.it/calhippo/](https://ditto.ing.unimore.it/calhippo/).
-> It includes preprocessed HR crops, crop metadata, classified cell annotations,
-> and the mesoscale point cloud. With these files in place, you can skip HR
-> preprocessing, HR segmentation, and HR classification.
+> This path lets you skip HR preprocessing, HR segmentation, and HR
+> classification for the released slices. It also gives you the final released
+> point cloud.
+
+Use this if you downloaded `CALHippo_Dataset_v1.0.zip` from
+[https://ditto.ing.unimore.it/calhippo/](https://ditto.ing.unimore.it/calhippo/).
 
 1. Sign in at [https://ditto.ing.unimore.it/calhippo/](https://ditto.ing.unimore.it/calhippo/).
 2. Download `CALHippo_Dataset_v1.0.zip` (`~6 GB`).
-3. Verify the archive checksum.
-4. Run the setup script on the downloaded archive.
+3. Run the setup script on the downloaded archive:
 
-The archive contains 24 high-resolution BigBrain slices at `1 µm/px`, HR crops
-for `RCA1`, `RCA2`, `RCA3`, and `RCA4`, cell annotations for excitatory neurons,
-inhibitory interneurons, and glial cells, plus a point cloud in BigBrain
-coordinates.
+    ```bash
+    DATA_ROOT=data
+    uv run python scripts/setup_data.py \
+      --data-root "$DATA_ROOT" \
+      --calhippo-dataset-zip /path/to/CALHippo_Dataset_v1.0.zip
+    ```
 
-Released archive structure:
+The command verifies the checksum, extracts the archive, copies released files to
+the expected `data/` locations, and downloads only the required HR affine JSONs.
 
-```text
-CALHippo_Dataset_v1.0/
-|-- HR_annotations/
-|   |-- README_hr_annotations.txt
-|   |-- HR_images/
-|   |   |-- RCA1/
-|   |   |-- RCA2/
-|   |   |-- RCA3/
-|   |   |   |-- 3096_HR_crop.tif
-|   |   |   |-- 3096_bbox_hr.json
-|   |   |   `-- 3096_contours_hr.geojson
-|   |   `-- RCA4/
-|   `-- HR_annotations/
-|       |-- RCA1/
-|       |-- RCA2/
-|       |-- RCA3/
-|       |   `-- 3096_classification_results.geojson
-|       `-- RCA4/
-|-- LICENSE.md
-`-- point_cloud/
-    |-- README_point_cloud.txt
-    `-- point_cloud.csv
-```
+What you can skip:
 
-Expected SHA-256:
-
-```text
-1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754
-```
-
-Linux checksum check:
-
-```bash
-test "$(sha256sum CALHippo_Dataset_v1.0.zip | cut -d ' ' -f 1)" = "1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754" && printf 'true\n' || printf 'false\n'
-```
-
-macOS checksum check:
-
-```bash
-test "$(shasum -a 256 CALHippo_Dataset_v1.0.zip | cut -d ' ' -f 1)" = "1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754" && printf 'true\n' || printf 'false\n'
-```
-
-Windows PowerShell checksum check:
-
-```powershell
-if ((Get-FileHash .\CALHippo_Dataset_v1.0.zip -Algorithm SHA256).Hash.ToLower() -eq "1ee534f851471696a6d418e08b7dd7968e0a9bdf2fcd0e2a62e746577ce78754") { "true" } else { "false" }
-```
-
-Place the released files in the default framework layout from the repository root:
-
-```bash
-DATA_ROOT=data
-uv run python scripts/setup_data.py \
-  --data-root "$DATA_ROOT" \
-  --calhippo-dataset-zip CALHippo_Dataset_v1.0.zip
-```
-
-This verifies the SHA-256 checksum, extracts the archive under
-`data/misc/calhippo_dataset_release/`, copies the released files into the
-expected pipeline locations, and downloads only the required HR affine JSONs.
-
-The released dataset replaces these pipeline stages for the included HR slices:
-
-| Released data | Framework destination | Lets you skip |
+| Pipeline stage | Skip? | Why |
 | --- | --- | --- |
-| `HR_annotations/HR_images/RCA*/` | `data/input/single_regions/high_res/RCA*/` | HR crop extraction for these slices |
-| `HR_annotations/HR_annotations/RCA*/*_classification_results.geojson` | `data/output/classification/RCA*/ml_classifier_logistic_encoder_uni2h/` | HR segmentation and classification |
-| `point_cloud/point_cloud.csv` | `data/output/mesoscale_reconstruction/calhippo_dataset_v1.0/point_cloud.csv` | point-cloud reconstruction if you only need the released result |
+| [Pipeline step 2: preprocess raw HR/LR slices](pipeline.md#2-preprocess-raw-hr-and-lr-slices) | Skip HR part | HR crops and ROI metadata are included |
+| [Pipeline step 4: segment HR cells](pipeline.md#4-segment-hr-cells-in-all-ca-areas) | Skip | Classified cell annotations are included |
+| [Pipeline step 5: classify segmented cells](pipeline.md#5-classify-segmented-cells) | Skip | Classified cell annotations are included |
+| [Pipeline step 9: build the 3D point cloud](pipeline.md#9-build-the-3d-point-cloud) | Skip if you only need the released point cloud | `point_cloud.csv` is included |
 
-To rebuild the LR density dataset from the released HR annotations, you still need
-the matching LR `.mnc` files, surfaces, and model weights. Download them with:
+Still required for LR density dataset creation and downstream inference:
 
 ```bash
 uv run python scripts/setup_data.py --data-root "$DATA_ROOT" --download-lr --download-surfaces --download-weights
 ```
 
-Then continue from LR density dataset creation:
+Then continue here:
 
-```bash
-uv run python -m src.density_estimator.datasets.create_dataset
-```
+- [Pipeline step 6: build the HR to LR density dataset](pipeline.md#6-build-the-hr-to-lr-density-dataset)
 
-### 1. Folder Setup
+## Custom Data Folder
 
 Create the folder structure with a custom data root:
 
@@ -133,12 +81,13 @@ uv run python scripts/setup_data.py --data-root "$DATA_ROOT"
 #where you specified the DATA_ROOT env in your terminal
 ```
 
-### 2. Full Download
+## Download All Raw Data
 
 Download the maintained public setup in one command:
 
-> [!WARNING]  
-> The full high and low res dataset download requires at least up 600GB of free disk space and can take several time depending on your network speed.
+> [!WARNING]
+> The full raw-data download requires more than 600 GB of free disk space and
+> can take a long time.
 
 ```bash
 uv run python scripts/setup_data.py --data-root "$DATA_ROOT" --download-all
@@ -147,9 +96,14 @@ uv run python scripts/setup_data.py --data-root "$DATA_ROOT" --download-all
 This downloads the public surfaces, maintained HR subset, full maintained LR,
 and the released model artifacts used by the public reproducibility path.
 
->Only the HR WSIs matching to the LR WSIs ids are downloaded. It is expected that the script fails to download a lot of missing HR matching slides.
+> Only the HR WSIs matching the LR WSI IDs are downloaded. Some missing HR
+> matches upstream are expected.
 
-## Partial Setup
+Next:
+
+- [Run the full pipeline from raw data](pipeline.md)
+
+## Download Selected Data
 
 Download only the aligned HR 1 micron BigTiff sections and affine JSONs:
 

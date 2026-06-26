@@ -104,15 +104,22 @@ or run `.py` files directly using `uv run` instead of `python`.
 The released CALHippo dataset is available at
 [https://ditto.ing.unimore.it/calhippo/](https://ditto.ing.unimore.it/calhippo/).
 It includes 24 high-resolution BigBrain slices with CA1-CA4 cell annotations and
-a mesoscale point cloud. If you download it, you can place the files into the
-expected `data/` layout and start from LR density dataset creation instead of
-rerunning HR preprocessing, segmentation, and classification.
+a mesoscale point cloud. If you download it, you can skip HR preprocessing, HR
+segmentation, and HR classification. The dataset also includes the final
+released point cloud.
 
 ```bash
 uv run python scripts/setup_data.py --data-root data --calhippo-dataset-zip CALHippo_Dataset_v1.0.zip
 ```
 
-To reproduce and/or use the pipeline, read the following documents in order:
+Choose a setup path:
+
+| Goal | Start here |
+| --- | --- |
+| Use the released dataset and skip the HR pipeline | [Use The Released CALHippo Dataset](documents/data_setup.md#use-the-released-calhippo-dataset) |
+| Reproduce the full process from raw data | [Download All Raw Data](documents/data_setup.md#download-all-raw-data), then [Pipeline Instructions](documents/pipeline.md) |
+
+Reference documents:
 
 | Document | Use it for |
 | --- | --- |
