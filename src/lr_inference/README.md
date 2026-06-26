@@ -11,7 +11,7 @@ For the maintained reproducibility and inference path after data setup, read:
 
 ## Data Needed
 
-1. A trained density-estimation run or model folder containing one copied YAML
+1. A trained density-estimation run or model folder containing one YAML
    config file and one `.pth` checkpoint. The default released Hugging Face
    model bundle is `data/models/density_estimation/short_unet/`.
 
