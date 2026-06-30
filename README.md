@@ -6,6 +6,8 @@
 ![TensorFlow](https://img.shields.io/badge/TensorFlow-2.20%2B-FF6F00?logo=tensorflow&logoColor=white)
 [![Dataset](https://img.shields.io/badge/Dataset-CALHippo-2EA44F)](https://ditto.ing.unimore.it/calhippo/)
 [![Models](https://img.shields.io/badge/Models-Hugging%20Face-FFD21E?logo=huggingface&logoColor=black)](https://huggingface.co/AImageLab-Zip/CALHippo-Framework-Models)
+[![Hugging Face Spaces](https://img.shields.io/badge/🤗-Open%20in%20Spaces-blue)](https://huggingface.co/spaces/AImageLab-Zip/CALHippo-Demo)
+
 
 > [!IMPORTANT]
 > CALHippo has been accepted at [MICCAI 2026](https://conferences.miccai.org/2026/)! The current preprint version is available [here](https://federicobolelli.it/media/publications/pdfs/Paper-0727.pdf). See the [citation](#citations) below.
@@ -14,6 +16,10 @@
 > [![Dataset](https://img.shields.io/badge/Dataset-CALHippo-2EA44F)](https://ditto.ing.unimore.it/calhippo/)
 >
 > The released dataset includes preprocessed HR crops, classified cell annotations, and a mesoscale point cloud. Use it to skip HR data preprocessing, segmentation, and classification; see [Data setup](documents/data_setup.md).
+>
+> Low resolution density estimation demo is available on the Hugging Face space:
+>
+> [![Hugging Face Spaces](https://img.shields.io/badge/🤗-Open%20in%20Spaces-blue)](https://huggingface.co/spaces/AImageLab-Zip/CALHippo-Demo)
 
 This repository contains the official framework associated with the **CALHippo dataset**. It provides a multiscale workflow that bridges microscopic cell instances and macroscopic brain architecture, enabling the generation of biologically plausible 3D cellular point clouds from BigBrain histological sections.
 
