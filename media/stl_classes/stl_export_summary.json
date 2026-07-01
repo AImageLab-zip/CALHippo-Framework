@@ -1,0 +1,20 @@
+{
+  "Pyramidal": {
+    "path": "media/stl_classes/pyramidal_cells.stl",
+    "sampled_glyphs": 18653,
+    "triangles": 149224,
+    "file_size_bytes": 7461284
+  },
+  "Interneuron": {
+    "path": "media/stl_classes/interneuron_cells.stl",
+    "sampled_glyphs": 2105,
+    "triangles": 16840,
+    "file_size_bytes": 842084
+  },
+  "Astrocyte": {
+    "path": "media/stl_classes/astrocyte_cells.stl",
+    "sampled_glyphs": 15242,
+    "triangles": 121936,
+    "file_size_bytes": 6096884
+  }
+}

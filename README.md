@@ -41,8 +41,8 @@ runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
 <table align="center">
   <tr>
     <td align="center" width="50%">
-      <a href="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3.mp4">
-        <img src="media/hr_merging_and_classification/hr_merging_and_classification_3096_RCA3_preview.gif" width="100%" alt="HR Segmentation and Classification Merging Pipeline">
+      <a href="media/segmentation_and_classification/hr_segmentation_classification_3096_RCA3_defaultcrop.mp4">
+        <img src="media/segmentation_and_classification/hr_segmentation_classification_3096_RCA3_defaultcrop_preview.gif" width="100%" alt="HR Segmentation and Classification Merging Pipeline">
       </a>
     </td>
     <td align="center" width="50%">
@@ -77,7 +77,15 @@ runs full-slice LR inference (f), and reconstructs 3D point-cloud outputs (g).
     </td>
   </tr>
   <tr>
-    <td align="center" colspan="2"><strong>All CA Mesocale Volumes (left) and predicted point cloud (right)</strong></td>
+    <td align="center" colspan="2"><strong>All CA Mesoscale Volumes (left) and predicted point cloud (right)</strong></td>
+  </tr>
+  <tr>
+    <td align="center" colspan="2">
+      <strong>Class STL downloads:</strong>
+      <a href="media/stl_classes/pyramidal_cells.stl">Pyramidal cells</a> |
+      <a href="media/stl_classes/interneuron_cells.stl">Interneurons</a> |
+      <a href="media/stl_classes/astrocyte_cells.stl">Astrocytes</a>
+    </td>
   </tr>
 </table>
 
